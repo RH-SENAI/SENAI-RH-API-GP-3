@@ -30,7 +30,7 @@ namespace senai_gp3_webApi.Repositories
 
             if (funcionarioAtualizado.CaminhoFotoPerfil != null)
             {
-                funcionarioAchado.CaminhoFotoPerfil = funcionarioAtualizado.CaminhoFotoPerfil ;
+                funcionarioAchado.CaminhoFotoPerfil = funcionarioAtualizado.CaminhoFotoPerfil;
             }
 
             ctx.Usuarios.Update(funcionarioAchado);
@@ -138,9 +138,28 @@ namespace senai_gp3_webApi.Repositories
             throw new System.NotImplementedException();
         }
 
-        public string CalcularSatisfacao(int idUsuario)
+        public void CalcularSatisfacao(int idUsuario)
         {
-            throw new System.NotImplementedException();
+            // Saber qual é o usuário
+            Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
+
+            // Precisa de uma lista com todas as avaliações que ele deu nas decisões
+            List<decimal> notas = new();
+
+            // Pegar as avaliações que ele deu
+            foreach (var fb in ctx.Feedbacks)
+            {
+                if (fb.IdUsuario == idUsuario)
+                {
+                    notas.Add(fb.NotaDecisao);
+                }
+            }
+
+            // Calcular media
+            // Atribuir a satisfação do usuario
+            usuario.NivelSatisfacao = notas.Sum() / notas.Count;
+
+            ctx.SaveChanges();
         }
 
         public void DeletarUsuario(int idUsuario)
@@ -180,7 +199,7 @@ namespace senai_gp3_webApi.Repositories
                         IdTipoUsuario = u.IdTipoUsuarioNavigation.IdTipoUsuario,
                         NomeTipoUsuario = u.IdTipoUsuarioNavigation.NomeTipoUsuario
                     },
-                    IdUnidadeSenaiNavigation = new Unidadesenai ()
+                    IdUnidadeSenaiNavigation = new Unidadesenai()
                     {
                         NomeUnidadeSenai = u.IdUnidadeSenaiNavigation.NomeUnidadeSenai
                     }
@@ -191,6 +210,7 @@ namespace senai_gp3_webApi.Repositories
 
         public Usuario ListarUsuarioPorId(int idUsuario)
         {
+            CalcularSatisfacao(idUsuario);
             return ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
         }
 
@@ -212,11 +232,12 @@ namespace senai_gp3_webApi.Repositories
                     // retorna o usuário, com senha já atualizada
                     return usuario;
 
-                } else
+                }
+                else
                 {
                     // comparada senha que fornecida pelo usuário com a senha que já está criptografa no banco
                     bool confere = Criptografia.CompararSenha(senha, usuario.Senha);
-                    
+
                     // caso a comparação seja válida retorne o usuário
                     if (confere)
                         return usuario;

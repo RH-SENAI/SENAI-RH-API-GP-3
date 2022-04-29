@@ -59,7 +59,7 @@ namespace senai_gp3_webApi
         /// </summary>
         /// <param name="idUsuario">id do Usuario</param>
         /// <returns></returns>
-        string CalcularSatisfacao(int idUsuario);
+        void CalcularSatisfacao(int idUsuario);
 
         /// <summary>
         /// Calcula a média das avaliações do usuario

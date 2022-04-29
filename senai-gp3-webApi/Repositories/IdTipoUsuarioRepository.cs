@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace senai_gp3_webApi.Repositories
 {
-    public class IdTipoUsuarioRepository : IIdTipoUsuarioRepository
+    public class IdTipoUsuarioRepository : Interfaces.IIdTipoUsuarioRepository
     {
         private readonly senaiRhContext ctx;
 

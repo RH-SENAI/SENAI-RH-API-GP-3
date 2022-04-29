@@ -11,7 +11,7 @@ namespace senai_gp3_webApi.Interfaces
         /// <summary>
         /// Lista todos os Feedbacks
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Uma lista de feedback</returns>
         List<Feedback> ListarFb();
 
         /// <summary>
@@ -46,7 +46,6 @@ namespace senai_gp3_webApi.Interfaces
         /// <param name="feedback">feedback que será verificado</param>
         /// <returns></returns>
         Feedback VerificarFeedback(Feedback feedback);
-        //Atribui os parametros de entrada em um Feedback
 
         /// <summary>
         /// avalia uma determinada decisao

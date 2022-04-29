@@ -45,7 +45,7 @@ namespace senai_gp3_webApi.Controllers
         {
             try
             {
-                if (idUsuario != 0)
+                if (idUsuario == 0)
                 {
                     return BadRequest("O id do Usuário não pode ser 0 !");
                 }
@@ -138,7 +138,7 @@ namespace senai_gp3_webApi.Controllers
 
 
         [HttpPut("Atualizar/Funcionario/{idUsuario}")]
-        public IActionResult AtualizarFuncionario(int idUsuario, FuncionarioAtualizadoViewModel funcionarioAtualizado, IFormFile novaFotoPerfil)
+        public IActionResult AtualizarFuncionario(int idUsuario, [FromForm] FuncionarioAtualizadoViewModel funcionarioAtualizado, IFormFile novaFotoPerfil)
         {
             try
             {
@@ -195,30 +195,5 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
-
-        /*** ESSE METÓDO SERVIU APENAS PARA TESTAR SE O REMOVER FOTO ESTAVA FUNCIONANDO ***/
-
-        //[HttpDelete("Deletar/Foto/{id}")]
-        //public IActionResult DeletarFoto(int id)
-        //{
-        //    try
-        //    {
-
-
-        //        if (id == 0)
-        //        {
-        //            return BadRequest("O id passado não pode ser 0");
-        //        }
-        //        else
-        //        {
-        //            _usuarioRepository.RemoverFotoDePerfil(id);
-        //            return NoContent();
-        //        }
-        //    }
-        //    catch (Exception execp)
-        //    {
-        //        return BadRequest(execp);
-        //    }
-        //}
     }
 }
