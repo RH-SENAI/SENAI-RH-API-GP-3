@@ -120,7 +120,7 @@ namespace senai_gp3_webApi.Utils
             try
             {
                 //Remove a foto antiga
-                RemoverFoto("marrom");
+                RemoverFoto(nomeFotoAntiga);
 
                 //Coloca a nova foto que foi inserida
                 string nomeFotoAtualizada = EnviarFoto(novaFoto);

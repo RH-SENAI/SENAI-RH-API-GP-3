@@ -138,6 +138,34 @@ namespace senai_gp3_webApi.Repositories
             throw new System.NotImplementedException();
         }
 
+        public void CalcularProdutividade(int idUsuario)
+        {
+            Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
+            List<Minhasatividade> atividadesUsuario = new();
+
+            //Procura todas as atividades daquele usuário
+            foreach(var atividade in ctx.Minhasatividades)
+            {
+                if(atividade.IdUsuario == usuario.IdUsuario)
+                {
+                    atividadesUsuario.Add(atividade);
+                }
+            }
+
+            // Quantidade de atividades feitas
+            int numeroAtividadesFeitas = 0;
+
+            foreach(var atividadesFeitas in atividadesUsuario)
+            {
+                numeroAtividadesFeitas += 1;
+            }
+
+            // Atribui uma nota ao usuário
+            usuario.NotaProdutividade = numeroAtividadesFeitas / usuario.IdCargoNavigation.CargaHoraria;
+            ctx.SaveChanges();
+
+        }
+
         public void CalcularSatisfacao(int idUsuario)
         {
             Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
@@ -197,13 +225,14 @@ namespace senai_gp3_webApi.Repositories
                     {
                         NomeUnidadeSenai = u.IdUnidadeSenaiNavigation.NomeUnidadeSenai
                     }
-
+                    
                 }).
                 ToList();
         }
 
         public Usuario ListarUsuarioPorId(int idUsuario)
         {
+            CalcularProdutividade(idUsuario);
             CalcularSatisfacao(idUsuario);
             return ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
         }

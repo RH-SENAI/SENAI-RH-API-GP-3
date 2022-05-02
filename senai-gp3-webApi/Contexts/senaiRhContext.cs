@@ -1008,6 +1008,10 @@ namespace senai_gp3_webApi.Contexts
                     .IsUnicode(false)
                     .HasColumnName("nome");
 
+                entity.Property(e => e.NotaProdutividade)
+                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnName("notaProdutividade");
+
                 entity.Property(e => e.SaldoMoeda).HasColumnName("saldoMoeda");
 
                 entity.Property(e => e.Senha)

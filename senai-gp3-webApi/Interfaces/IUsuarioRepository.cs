@@ -73,5 +73,11 @@ namespace senai_gp3_webApi
         /// </summary>
         /// <param name="idUsuario">id do usuario que foto será resolvida</param>
         void RemoverFotoDePerfil(int idUsuario);
+
+        /// <summary>
+        /// Calcula a produtividade do usuário
+        /// </summary>
+        /// <param name="idUsuario">id do usuario</param>
+        void CalcularProdutividade(int idUsuario);
     }
 }
