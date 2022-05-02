@@ -12,8 +12,8 @@ namespace senai_gp3_webApi.Utils
     public static class Upload
     {
         //String de conexão que recebemos do serviço no da AZURE
-        const string STRING_DE_CONEXAO = "DefaultEndpointsProtocol=https;AccountName=armazenamentogrupo3;AccountKey=Y4K/lMSydo5BhOrGW1NdiyLYWJdqHsm6ohUG9SWvEGJeZmxWPbmjy6DrGYlJgIqn6ADyIH/gAfaKF1NgTQ391Q==;EndpointSuffix=core.windows.net";
-        const string BLOB_CONTAINER_NAME = "armazenamento-simples";
+        private const string STRING_DE_CONEXAO = "DefaultEndpointsProtocol=https;AccountName=armazenamentogrupo3;AccountKey=Y4K/lMSydo5BhOrGW1NdiyLYWJdqHsm6ohUG9SWvEGJeZmxWPbmjy6DrGYlJgIqn6ADyIH/gAfaKF1NgTQ391Q==;EndpointSuffix=core.windows.net";
+        private const string BLOB_CONTAINER_NAME = "armazenamento-simples";
 
         //Permite que consigamos manipular um container
         private static BlobContainerClient BlobContainerClient { get; set; }
