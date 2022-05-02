@@ -140,13 +140,9 @@ namespace senai_gp3_webApi.Repositories
 
         public void CalcularSatisfacao(int idUsuario)
         {
-            // Saber qual é o usuário
             Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-
-            // Precisa de uma lista com todas as avaliações que ele deu nas decisões
             List<decimal> notas = new();
 
-            // Pegar as avaliações que ele deu
             foreach (var fb in ctx.Feedbacks)
             {
                 if (fb.IdUsuario == idUsuario)
@@ -156,9 +152,7 @@ namespace senai_gp3_webApi.Repositories
             }
 
             // Calcular media
-            // Atribuir a satisfação do usuario
             usuario.NivelSatisfacao = notas.Sum() / notas.Count;
-
             ctx.SaveChanges();
         }
 
