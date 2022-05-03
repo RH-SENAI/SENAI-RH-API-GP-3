@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using senai_gp3_webApi.Contexts;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Utils;
@@ -19,6 +20,7 @@ namespace senai_gp3_webApi.Repositories
             ctx = appContext;
         }
 
+        private const string SENHA_PADRAO = "SesiSenai132";
         public Usuario AtualizarFuncionario(int idUsuario, FuncionarioAtualizadoViewModel funcionarioAtualizado)
         {
             var funcionarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
@@ -112,7 +114,7 @@ namespace senai_gp3_webApi.Repositories
 
                 Nome = novoUsuario.Nome,
                 Email = novoUsuario.Email,
-                Senha = novoUsuario.Senha,
+                Senha = SENHA_PADRAO,
                 Cpf = novoUsuario.Cpf,
                 CaminhoFotoPerfil = novoUsuario.CaminhoFotoPerfil,
                 DataNascimento = novoUsuario.DataNascimento,
@@ -140,24 +142,17 @@ namespace senai_gp3_webApi.Repositories
 
         public void CalcularProdutividade(int idUsuario)
         {
-            Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-            List<Minhasatividade> atividadesUsuario = new();
-
-            //Procura todas as atividades daquele usuário
-            foreach(var atividade in ctx.Minhasatividades)
-            {
-                if(atividade.IdUsuario == usuario.IdUsuario)
-                {
-                    atividadesUsuario.Add(atividade);
-                }
-            }
-
-            // Quantidade de atividades feitas
+            Usuario usuario = ctx.Usuarios.Include(u => u.IdCargoNavigation).FirstOrDefault(u => u.IdUsuario == idUsuario);
             int numeroAtividadesFeitas = 0;
 
-            foreach(var atividadesFeitas in atividadesUsuario)
+            //Procura todas as atividades daquele usuário
+            foreach (var atividade in ctx.Minhasatividades)
             {
-                numeroAtividadesFeitas += 1;
+                //Verifica se a atividade pertence aquele usuario e se está Finalizada
+                if(atividade.IdUsuario == usuario.IdUsuario && atividade.IdSituacaoAtividade == 1)
+                {
+                    numeroAtividadesFeitas += 1;
+                }
             }
 
             // Atribui uma nota ao usuário
