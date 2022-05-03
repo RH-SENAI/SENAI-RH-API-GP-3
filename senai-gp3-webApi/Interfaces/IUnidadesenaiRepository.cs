@@ -28,6 +28,19 @@ namespace senai_gp3_webApi.Interfaces
 
 
         /// <summary>
+        /// Calcula a satisfacao
+        /// </summary>
+        /// <param name="idUnidadeSenai">id do idUnidadeSenai</param>
+        /// <returns></returns>
+        void CalcularSatisfacao(int idUnidadeSenai);
+
+        /// <summary>
+        /// Calcula a produtividade da unidade
+        /// </summary>
+        /// <param name="idUnidade">id da Unidade</param>
+        void CalcularProdutividade(int idUnidade);
+
+        /// <summary>
         /// Atualiza os dados de uma determinadade unidade do senai
         /// </summary>
         /// <param name="idUniSenai">Id da unidade que será atualiza</param>

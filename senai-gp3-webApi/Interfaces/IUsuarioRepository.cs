@@ -69,12 +69,6 @@ namespace senai_gp3_webApi
         string CalcularMediaAvaliacao(int idUsuario);
 
         /// <summary>
-        /// Remove a foto de perfil do usuário
-        /// </summary>
-        /// <param name="idUsuario">id do usuario que foto será resolvida</param>
-        void RemoverFotoDePerfil(int idUsuario);
-
-        /// <summary>
         /// Calcula a produtividade do usuário
         /// </summary>
         /// <param name="idUsuario">id do usuario</param>

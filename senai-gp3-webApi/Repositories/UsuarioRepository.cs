@@ -7,6 +7,7 @@ using senai_gp3_webApi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace senai_gp3_webApi.Repositories
@@ -20,7 +21,8 @@ namespace senai_gp3_webApi.Repositories
             ctx = appContext;
         }
 
-        private const string SENHA_PADRAO = "SesiSenai132";
+        private const string SENHA_PADRAO = "Sesisenai@2022";
+
         public Usuario AtualizarFuncionario(int idUsuario, FuncionarioAtualizadoViewModel funcionarioAtualizado)
         {
             var funcionarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
@@ -238,18 +240,13 @@ namespace senai_gp3_webApi.Repositories
 
             if (usuario != null)
             {
-                // verifica se a senha desse Usuário possui caracteristicas de um senha criptografada
-                if (usuario.Senha.Length != 60 && usuario.Senha[0].ToString() != "$")
+                if (ValidarSenha(senha))
                 {
                     // senha criptografada
                     string senhaHash = Criptografia.CriptografarSenha(senha);
                     usuario.Senha = senhaHash;
                     ctx.Usuarios.Update(usuario);
                     ctx.SaveChanges();
-
-                    // retorna o usuário, com senha já atualizada
-                    return usuario;
-
                 }
                 else
                 {
@@ -266,11 +263,51 @@ namespace senai_gp3_webApi.Repositories
             return null;
         }
 
-
-        public void RemoverFotoDePerfil(int idUsuario)
+        /// <summary>
+        /// Atualiza a senha 
+        /// </summary>
+        /// <param name="idUsuario">Id do Usuario que a senha será atualizada</param>
+        /// <param name="senhaAtualizada">senha atualizada</param>
+        public void AtualizarSenha(int idUsuario, string senhaAtualizada)
         {
-            var usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-            Upload.RemoverFoto(usuario.CaminhoFotoPerfil);
+            Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
+
+            if (ValidarSenha(senhaAtualizada))
+            {
+                // senha criptografada
+                string senhaHash = Criptografia.CriptografarSenha(senhaAtualizada);
+                usuario.Senha = senhaHash;
+                ctx.Usuarios.Update(usuario);
+                ctx.SaveChanges();
+            }
+
+        }
+
+        /// <summary>
+        /// Valida senha 
+        /// </summary>
+        /// <param name="senha">senha que será validada</param>
+        /// <returns>se a senha é valida(true) ou não(false)</returns>
+        public bool ValidarSenha(string senha)
+        {
+           const int TAMANHO = 60;
+           
+           if(string.IsNullOrEmpty(senha)|| senha.Length > TAMANHO)
+           {
+                return false;
+           }
+           else if (Regex.IsMatch(senha, @"\$"))
+           {
+                return false;
+           }
+           else if (senha != SENHA_PADRAO)
+           {
+               return false;
+           }
+           else
+           {
+               return true;
+           }
         }
     }
 }

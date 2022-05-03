@@ -32,12 +32,24 @@ namespace senai_gp3_webApi.Controllers
             };
         }
 
-        // GET api/<UnidadesenaisController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("Listar/{idUnidade}")]
+        public IActionResult ListarUniSenaiPorId(int idUnidade)
         {
-            return "value";
+            try
+            {
+                if (idUnidade == 0)
+                {
+                    return BadRequest("O id da Unidade não pode ser 0 !");
+                }
+
+                return Ok(_unidadeSenaiRepository.ListarUniSenaiPorId(idUnidade));
+            }
+            catch (Exception execp)
+            {
+                return BadRequest(execp);
+            };
         }
+
 
         // POST api/<UnidadesenaisController>
         [HttpPost("Cadastrar")]

@@ -1,11 +1,7 @@
 ﻿using Azure.Storage.Blobs;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.IO;
-using System.Net;
 using System.Net.Http.Headers;
-using System.Threading.Tasks;
 
 namespace senai_gp3_webApi.Utils
 {
