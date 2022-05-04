@@ -28,9 +28,42 @@ namespace senai_gp3_webApi.Repositories
             ctx.SaveChanges();
         }
 
-        public void CalcularProdutividade(int idUnidade)
+        public void CalcularProdutividade(int idUnidadeSenai)
         {
-            throw new System.NotImplementedException();
+            var unidadeSenai = ctx.Unidadesenais.FirstOrDefault(u => u.IdUnidadeSenai == idUnidadeSenai);
+            List<decimal?> mediaNotas = new();
+
+            // Pega as avaliações dos usuários
+            foreach (var usuario in ctx.Usuarios)
+            {
+                if (usuario.IdUnidadeSenai == unidadeSenai.IdUnidadeSenai)
+                {
+                    mediaNotas.Add(usuario.NotaProdutividade);
+                }
+            }
+
+            // Query personalizada para pegar as listas das notas
+            var query = from media in mediaNotas
+                        select media;
+            decimal? elementoCentral;
+            var contagem = query.Count();
+
+            if ((contagem % 2) == 0)
+            {
+                //Pega as duas avaliações do meio
+                var elementoCentral1 = mediaNotas.Skip(contagem / 2).First();
+                var elementoCentral2 = mediaNotas.Skip((contagem / 2) - 1).First();
+                elementoCentral = (elementoCentral1 + elementoCentral2) / 2;
+            }
+            else
+            {
+                // Pega o elemento central
+                elementoCentral = mediaNotas.Skip(contagem / 2).First();
+            }
+
+            // Calcular media
+            unidadeSenai.NotaProdutividade = elementoCentral;
+            ctx.SaveChanges();
         }
 
         public void CalcularSatisfacao(int idUnidadeSenai)
@@ -83,6 +116,7 @@ namespace senai_gp3_webApi.Repositories
 
         public Unidadesenai ListarUniSenaiPorId(int idUniSenai)
         {
+            CalcularProdutividade(idUniSenai);
             CalcularSatisfacao(idUniSenai);
             return ctx.Unidadesenais.FirstOrDefault(u => u.IdUnidadeSenai == idUniSenai);
         }

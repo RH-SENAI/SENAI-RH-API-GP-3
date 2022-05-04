@@ -933,6 +933,8 @@ namespace senai_gp3_webApi.Contexts
                     .IsUnicode(false)
                     .HasColumnName("nomeUnidadeSenai");
 
+                entity.Property(e => e.NotaProdutividade).HasColumnType("decimal(2, 1)");
+
                 entity.Property(e => e.TelefoneUnidadeSenai)
                     .IsRequired()
                     .HasMaxLength(13)
