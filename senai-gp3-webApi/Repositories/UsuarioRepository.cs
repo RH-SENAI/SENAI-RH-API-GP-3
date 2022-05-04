@@ -177,7 +177,7 @@ namespace senai_gp3_webApi.Repositories
             }
 
             // Calcular media
-            usuario.NivelSatisfacao = notas.Sum() / notas.Count;
+            usuario.NivelSatisfacao = ((notas.Sum() / notas.Count) / 5) * 100;
             ctx.SaveChanges();
         }
 
