@@ -40,7 +40,20 @@ namespace senai_gp3_webApi.Repositories
 
         public List<Decisao> ListarDecisoes()
         {
-            return ctx.Decisaos.ToList();
+            return ctx.Decisaos.Select(d => new Decisao
+            {
+                IdDecisao = d.IdDecisao,
+                IdUsuario = d.IdUsuario,
+                DataDecisao = d.DataDecisao,
+                DescricaoDecisao = d.DescricaoDecisao,
+                PrazoDeAvaliacao = d.PrazoDeAvaliacao,
+                ResultadoDecisao = d.ResultadoDecisao,
+                IdUsuarioNavigation = new ()
+                { 
+                    Nome = d.IdUsuarioNavigation.Nome
+                }
+            }).ToList(); 
+
         }
 
         public Decisao VerificarDecisao(Decisao decisao)
