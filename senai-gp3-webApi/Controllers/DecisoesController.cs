@@ -62,5 +62,23 @@ namespace senai_gp3_webApi.Controllers
                 return BadRequest(execp);
             }
         }
+
+        [HttpGet("Listar/{idDecisao}")]
+        public IActionResult ListarDecisaoPorId(int idDecisao)
+        {
+            try
+            {
+                if (idDecisao == 0)
+                {
+                    return BadRequest("O id da Decisao não pode ser 0 !");
+                }
+
+                return Ok(_decisaoRepository.ListarDecisaoPorId(idDecisao));
+            }
+            catch (Exception execp)
+            {
+                return BadRequest(execp);
+            }
+        }
     }
 }

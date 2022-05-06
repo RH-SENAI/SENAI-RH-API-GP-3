@@ -35,7 +35,21 @@ namespace senai_gp3_webApi.Repositories
 
         public Decisao ListarDecisaoPorId(int idDecisao)
         {
-            throw new NotImplementedException();
+            return ctx.Decisaos
+                .Select(d => new Decisao
+                {
+                    IdDecisao = d.IdDecisao,
+                    IdUsuario = d.IdUsuario,
+                    DataDecisao = d.DataDecisao,
+                    DescricaoDecisao = d.DescricaoDecisao,
+                    PrazoDeAvaliacao = d.PrazoDeAvaliacao,
+                    ResultadoDecisao = d.ResultadoDecisao,
+                    IdUsuarioNavigation = new()
+                    {
+                        Nome = d.IdUsuarioNavigation.Nome
+                    }
+                })
+                .FirstOrDefault(d => d.IdDecisao == idDecisao);
         }
 
         public List<Decisao> ListarDecisoes()
