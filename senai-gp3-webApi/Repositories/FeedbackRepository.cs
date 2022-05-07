@@ -61,7 +61,8 @@ namespace senai_gp3_webApi.Repositories
                     },
                     IdUsuarioNavigation = new Usuario ()
                     {
-                        Nome = f.IdUsuarioNavigation.Nome
+                        Nome = f.IdUsuarioNavigation.Nome,
+                        CaminhoFotoPerfil = f.IdUsuarioNavigation.CaminhoFotoPerfil
                     }
                 }
                 )
