@@ -45,6 +45,7 @@ namespace senai_gp3_webApi.Controllers
             try
             {
                 int idUsuario = Convert.ToInt32(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
+
                 if (novoFeedback == null)
                 {
                     return BadRequest("Objeto não pode estar vazio!");

@@ -46,7 +46,8 @@ namespace senai_gp3_webApi.Repositories
                     ResultadoDecisao = d.ResultadoDecisao,
                     IdUsuarioNavigation = new()
                     {
-                        Nome = d.IdUsuarioNavigation.Nome
+                        Nome = d.IdUsuarioNavigation.Nome,
+                        CaminhoFotoPerfil = d.IdUsuarioNavigation.CaminhoFotoPerfil
                     }
                 })
                 .FirstOrDefault(d => d.IdDecisao == idDecisao);
@@ -64,7 +65,8 @@ namespace senai_gp3_webApi.Repositories
                 ResultadoDecisao = d.ResultadoDecisao,
                 IdUsuarioNavigation = new ()
                 { 
-                    Nome = d.IdUsuarioNavigation.Nome
+                    Nome = d.IdUsuarioNavigation.Nome,
+                    CaminhoFotoPerfil = d.IdUsuarioNavigation.CaminhoFotoPerfil
                 }
             }).ToList(); 
 
