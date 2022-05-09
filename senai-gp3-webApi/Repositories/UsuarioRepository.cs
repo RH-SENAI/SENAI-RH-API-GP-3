@@ -111,7 +111,7 @@ namespace senai_gp3_webApi.Repositories
 
         public void CadastrarUsuario(UsuarioCadastroViewModel novoUsuario)
         {
-            Usuario usuario = new Usuario()
+            Usuario usuario = new ()
             {
 
                 Nome = novoUsuario.Nome,
@@ -137,28 +137,54 @@ namespace senai_gp3_webApi.Repositories
         }
 
 
-        public string CalcularMediaAvaliacao(int idUsuario)
+        public void CalcularMediaAvaliacao(int idUsuario)
         {
-            throw new System.NotImplementedException();
+            
+            Usuario usuarioAchado = new();
+
+            List<decimal> avaliacaousuarios = new();
+
+            foreach(var avaliacaoUsuario in ctx.Avaliacaousuarios)
+            {
+                if (avaliacaoUsuario.IdUsuarioAvaliado == idUsuario)
+                {
+                    avaliacaousuarios.Add(avaliacaoUsuario.Avaliacao);
+                }
+            }
+
+            usuarioAchado.MediaAvaliacao = avaliacaousuarios.Sum() / avaliacaousuarios.Count;
+            ctx.SaveChanges();
         }
 
         public void CalcularProdutividade(int idUsuario)
         {
-            Usuario usuario = ctx.Usuarios.Include(u => u.IdCargoNavigation).FirstOrDefault(u => u.IdUsuario == idUsuario);
+            Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
+
+            List<Minhasatividade> atividadeUsuario = new();
+            
             int numeroAtividadesFeitas = 0;
 
+            foreach(var atividade in ctx.Minhasatividades)
+            {
+                if (atividade.IdUsuario == usuario.IdUsuario)
+                {
+                    atividadeUsuario.Add(atividade);
+                }
+            }
+
             //Procura todas as atividades daquele usuário
-            foreach (var atividade in ctx.Minhasatividades)
+            foreach (var atividade in atividadeUsuario)
             {
                 //Verifica se a atividade pertence aquele usuario e se está Finalizada
-                if(atividade.IdUsuario == usuario.IdUsuario && atividade.IdSituacaoAtividade == 1)
+                if( atividade.IdSituacaoAtividade == 1)
                 {
                     numeroAtividadesFeitas += 1;
                 }
             }
 
             // Atribui uma nota ao usuário
-            usuario.NotaProdutividade = numeroAtividadesFeitas / usuario.IdCargoNavigation.CargaHoraria;
+            usuario.NotaProdutividade = numeroAtividadesFeitas;
+            ctx.Usuarios.Update(usuario);
             ctx.SaveChanges();
 
         }
@@ -178,6 +204,7 @@ namespace senai_gp3_webApi.Repositories
 
             // Calcular media
             usuario.NivelSatisfacao = ((notas.Sum() / notas.Count) / 5);
+            ctx.Usuarios.Update(usuario);
             ctx.SaveChanges();
         }
 
@@ -208,6 +235,7 @@ namespace senai_gp3_webApi.Repositories
                     NivelSatisfacao = u.NivelSatisfacao,
                     SaldoMoeda = u.SaldoMoeda,
                     Vantagens = u.Vantagens,
+                    MediaAvaliacao = u.MediaAvaliacao,
                     IdCargoNavigation = new Cargo()
                     {
                         IdCargo = u.IdCargoNavigation.IdCargo,
@@ -229,8 +257,9 @@ namespace senai_gp3_webApi.Repositories
 
         public Usuario ListarUsuarioPorId(int idUsuario)
         {
+            CalcularMediaAvaliacao(idUsuario);
             CalcularProdutividade(idUsuario);
-            CalcularSatisfacao(idUsuario);
+            //CalcularSatisfacao(idUsuario);
             return ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
         }
 

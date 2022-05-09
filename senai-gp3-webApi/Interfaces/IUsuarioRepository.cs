@@ -66,7 +66,7 @@ namespace senai_gp3_webApi
         /// </summary>
         /// <param name="idUsuario">id do Usuario</param>
         /// <returns>A média de avaliaca do usuario</returns>
-        string CalcularMediaAvaliacao(int idUsuario);
+        void CalcularMediaAvaliacao(int idUsuario);
 
         /// <summary>
         /// Calcula a produtividade do usuário

@@ -85,6 +85,8 @@ namespace senai_gp3_webApi.Contexts
                     .IsUnicode(false)
                     .HasColumnName("descricaoAtividade");
 
+                entity.Property(e => e.Equipe).HasColumnName("equipe");
+
                 entity.Property(e => e.IdGestorCadastro).HasColumnName("idGestorCadastro");
 
                 entity.Property(e => e.NecessarioValidar).HasColumnName("necessarioValidar");
@@ -94,6 +96,8 @@ namespace senai_gp3_webApi.Contexts
                     .HasMaxLength(256)
                     .IsUnicode(false)
                     .HasColumnName("nomeAtividade");
+
+                entity.Property(e => e.Obrigatorio).HasColumnName("obrigatorio");
 
                 entity.Property(e => e.RecompensaMoeda).HasColumnName("recompensaMoeda");
 
@@ -152,17 +156,13 @@ namespace senai_gp3_webApi.Contexts
 
                 entity.Property(e => e.IdAvaliacaoUsuario).HasColumnName("idAvaliacaoUsuario");
 
-                entity.Property(e => e.AvaliacaoUsuario1)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .IsUnicode(false)
-                    .HasColumnName("avaliacaoUsuario");
+                entity.Property(e => e.Avaliacao)
+                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnName("avaliacao");
 
                 entity.Property(e => e.IdUsuarioAvaliado).HasColumnName("idUsuarioAvaliado");
 
                 entity.Property(e => e.IdUsuarioAvaliador).HasColumnName("idUsuarioAvaliador");
-
-                entity.Property(e => e.ValorMoedas).HasColumnName("valorMoedas");
 
                 entity.HasOne(d => d.IdUsuarioAvaliadoNavigation)
                     .WithMany(p => p.AvaliacaousuarioIdUsuarioAvaliadoNavigations)
@@ -792,6 +792,8 @@ namespace senai_gp3_webApi.Contexts
 
                 entity.Property(e => e.IdCurso).HasColumnName("idCurso");
 
+                entity.Property(e => e.IdSituacaoAtividade).HasColumnName("idSituacaoAtividade");
+
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
                 entity.HasOne(d => d.IdCursoNavigation)
@@ -799,6 +801,11 @@ namespace senai_gp3_webApi.Contexts
                     .HasForeignKey(d => d.IdCurso)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__REGISTROC__idCur__2B0A656D");
+
+                entity.HasOne(d => d.IdSituacaoAtividadeNavigation)
+                    .WithMany(p => p.Registrocursos)
+                    .HasForeignKey(d => d.IdSituacaoAtividade)
+                    .HasConstraintName("FK__REGISTROC__idSit__51300E55");
 
                 entity.HasOne(d => d.IdUsuarioNavigation)
                     .WithMany(p => p.Registrocursos)
@@ -999,6 +1006,10 @@ namespace senai_gp3_webApi.Contexts
                     .HasMaxLength(256)
                     .IsUnicode(false)
                     .HasColumnName("localizacaoUsuario");
+
+                entity.Property(e => e.MediaAvaliacao)
+                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnName("mediaAvaliacao");
 
                 entity.Property(e => e.NivelSatisfacao)
                     .HasColumnType("decimal(2, 1)")

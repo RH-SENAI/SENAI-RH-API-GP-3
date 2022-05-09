@@ -41,6 +41,7 @@ namespace senai_gp3_webApi.Domains
         public string CaminhoFotoPerfil { get; set; }
         public bool? UsuarioAtivo { get; set; }
         public decimal? NotaProdutividade { get; set; }
+        public decimal? MediaAvaliacao { get; set; }
 
         public virtual Cargo IdCargoNavigation { get; set; }
         public virtual Tipousuario IdTipoUsuarioNavigation { get; set; }
