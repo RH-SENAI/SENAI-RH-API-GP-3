@@ -111,7 +111,7 @@ namespace senai_gp3_webApi.Repositories
 
         public void CadastrarUsuario(UsuarioCadastroViewModel novoUsuario)
         {
-            Usuario usuario = new ()
+            Usuario usuario = new()
             {
 
                 Nome = novoUsuario.Nome,
@@ -139,12 +139,12 @@ namespace senai_gp3_webApi.Repositories
 
         public void CalcularMediaAvaliacao(int idUsuario)
         {
-            
-            Usuario usuarioAchado = new();
+
+            Usuario usuarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
 
             List<decimal> avaliacaousuarios = new();
 
-            foreach(var avaliacaoUsuario in ctx.Avaliacaousuarios)
+            foreach (var avaliacaoUsuario in ctx.Avaliacaousuarios)
             {
                 if (avaliacaoUsuario.IdUsuarioAvaliado == idUsuario)
                 {
@@ -152,7 +152,15 @@ namespace senai_gp3_webApi.Repositories
                 }
             }
 
-            usuarioAchado.MediaAvaliacao = avaliacaousuarios.Sum() / avaliacaousuarios.Count;
+            if (avaliacaousuarios.Count == 0)
+            {
+                usuarioAchado.MediaAvaliacao = 0;
+            }
+            else
+            {
+                usuarioAchado.MediaAvaliacao = avaliacaousuarios.Sum() / avaliacaousuarios.Count;
+            }
+
             ctx.SaveChanges();
         }
 
@@ -161,10 +169,10 @@ namespace senai_gp3_webApi.Repositories
             Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
 
             List<Minhasatividade> atividadeUsuario = new();
-            
+
             int numeroAtividadesFeitas = 0;
 
-            foreach(var atividade in ctx.Minhasatividades)
+            foreach (var atividade in ctx.Minhasatividades)
             {
                 if (atividade.IdUsuario == usuario.IdUsuario)
                 {
@@ -176,7 +184,7 @@ namespace senai_gp3_webApi.Repositories
             foreach (var atividade in atividadeUsuario)
             {
                 //Verifica se a atividade pertence aquele usuario e se está Finalizada
-                if( atividade.IdSituacaoAtividade == 1)
+                if (atividade.IdSituacaoAtividade == 1)
                 {
                     numeroAtividadesFeitas += 1;
                 }
@@ -184,7 +192,6 @@ namespace senai_gp3_webApi.Repositories
 
             // Atribui uma nota ao usuário
             usuario.NotaProdutividade = numeroAtividadesFeitas;
-            ctx.Usuarios.Update(usuario);
             ctx.SaveChanges();
 
         }
@@ -202,9 +209,16 @@ namespace senai_gp3_webApi.Repositories
                 }
             }
 
-            // Calcular media
-            usuario.NivelSatisfacao = ((notas.Sum() / notas.Count) / 5);
-            ctx.Usuarios.Update(usuario);
+            if (notas.Count == 0)
+            {
+                usuario.NivelSatisfacao = 0;
+            }
+            else
+            {
+                // Calcular media
+                usuario.NivelSatisfacao = ((notas.Sum() / notas.Count) / 5);
+            }
+
             ctx.SaveChanges();
         }
 
@@ -250,7 +264,7 @@ namespace senai_gp3_webApi.Repositories
                     {
                         NomeUnidadeSenai = u.IdUnidadeSenaiNavigation.NomeUnidadeSenai
                     }
-                    
+
                 }).
                 ToList();
         }
@@ -259,8 +273,42 @@ namespace senai_gp3_webApi.Repositories
         {
             CalcularMediaAvaliacao(idUsuario);
             CalcularProdutividade(idUsuario);
-            //CalcularSatisfacao(idUsuario);
-            return ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
+            CalcularSatisfacao(idUsuario);
+
+            return ctx.Usuarios.Select(u => new Usuario
+            {
+                IdUsuario = u.IdUsuario,
+                Nome = u.Nome,
+                Email = u.Email,
+                Senha = u.Senha,
+                Cpf = u.Cpf,
+                CaminhoFotoPerfil = u.CaminhoFotoPerfil,
+                DataNascimento = u.DataNascimento,
+                IdTipoUsuario = u.IdTipoUsuario,
+                Trofeus = u.Trofeus,
+                IdCargo = u.IdCargo,
+                IdUnidadeSenai = u.IdUnidadeSenai,
+                LocalizacaoUsuario = u.LocalizacaoUsuario,
+                NivelSatisfacao = u.NivelSatisfacao,
+                SaldoMoeda = u.SaldoMoeda,
+                Vantagens = u.Vantagens,
+                MediaAvaliacao = u.MediaAvaliacao,
+                IdCargoNavigation = new Cargo()
+                {
+                    IdCargo = u.IdCargoNavigation.IdCargo,
+                    NomeCargo = u.IdCargoNavigation.NomeCargo
+                },
+                IdTipoUsuarioNavigation = new Tipousuario()
+                {
+                    IdTipoUsuario = u.IdTipoUsuarioNavigation.IdTipoUsuario,
+                    NomeTipoUsuario = u.IdTipoUsuarioNavigation.NomeTipoUsuario
+                },
+                IdUnidadeSenaiNavigation = new Unidadesenai()
+                {
+                    NomeUnidadeSenai = u.IdUnidadeSenaiNavigation.NomeUnidadeSenai
+                }
+
+            }).FirstOrDefault(u => u.IdUsuario == idUsuario);
         }
 
         public Usuario Login(string cpf, string senha)
@@ -319,24 +367,24 @@ namespace senai_gp3_webApi.Repositories
         /// <returns>se a senha é valida(true) ou não(false)</returns>
         public bool ValidarSenha(string senha)
         {
-           const int TAMANHO = 60;
-           
-           if(string.IsNullOrEmpty(senha)|| senha.Length > TAMANHO)
-           {
+            const int TAMANHO = 60;
+
+            if (string.IsNullOrEmpty(senha) || senha.Length > TAMANHO)
+            {
                 return false;
-           }
-           else if (Regex.IsMatch(senha, @"\$"))
-           {
+            }
+            else if (Regex.IsMatch(senha, @"\$"))
+            {
                 return false;
-           }
-           else if (senha != SENHA_PADRAO)
-           {
-               return false;
-           }
-           else
-           {
-               return true;
-           }
+            }
+            else if (senha != SENHA_PADRAO)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -33,6 +34,8 @@ namespace senai_gp3_webApi.Domains
         public string Senha { get; set; }
         public DateTime DataNascimento { get; set; }
         public short Vantagens { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal NivelSatisfacao { get; set; }
         public string Cpf { get; set; }
         public int SaldoMoeda { get; set; }
@@ -40,7 +43,11 @@ namespace senai_gp3_webApi.Domains
         public string LocalizacaoUsuario { get; set; }
         public string CaminhoFotoPerfil { get; set; }
         public bool? UsuarioAtivo { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? NotaProdutividade { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? MediaAvaliacao { get; set; }
 
         public virtual Cargo IdCargoNavigation { get; set; }
