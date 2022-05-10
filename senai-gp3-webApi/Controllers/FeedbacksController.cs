@@ -51,7 +51,6 @@ namespace senai_gp3_webApi.Controllers
                     return BadRequest("Objeto não pode estar vazio!");
                 } else
                 {
-                    novoFeedback.IdUsuario = idUsuario;
                     _feedBacksRepostory.CadastrarFb(novoFeedback);
                     return StatusCode(201);
                 }
