@@ -90,16 +90,14 @@ namespace senai_gp3_webApi
                     ValidateLifetime = true,
 
                     //definição da chave de segurança
-                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("UQIEUW-ORPOEWI-23854-023AKJD")),
+                    IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("senairh-autenticacao-token")),
 
                     //define o tempo de expiração
                     ClockSkew = TimeSpan.FromHours(1),
 
-                    //nome de emissor
-                    ValidIssuer = "senai-gp3-webApi",
+                    ValidIssuer = "SenaiRH_G1.WebApi",
 
-                    //nome do destinatário
-                    ValidAudience = "senai-gp3-webApi"
+                    ValidAudience = "SenaiRH_G1.WebApi"
                 }
                 );
 

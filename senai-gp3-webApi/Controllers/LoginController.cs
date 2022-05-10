@@ -50,7 +50,7 @@ namespace senai_gp3_webApi.Controllers
                     };
 
                     //key word para descriptografar a informação
-                    var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("UQIEUW-ORPOEWI-23854-023AKJD"));
+                    var key = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes("senairh-autenticacao-token"));
 
                     //encriptografando os dados
                     var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -58,17 +58,14 @@ namespace senai_gp3_webApi.Controllers
                     //declarando atributos do token
                     var MeuToken = new JwtSecurityToken(
 
-                        //emissor
-                        issuer: "senai-gp3-webApi",
-
-                        //destinatário
-                        audience: "senai-gp3-webApi",
+                        issuer: "SenaiRH_G1.WebApi",
+                        audience: "SenaiRH_G1.WebApi",
 
                         //claims/informações
                         claims: minhasClaims,
 
                         //data de expiração
-                        expires: DateTime.Now.AddHours(1),
+                        expires: DateTime.Now.AddMinutes(30),
                         signingCredentials: creds
                         );
 
