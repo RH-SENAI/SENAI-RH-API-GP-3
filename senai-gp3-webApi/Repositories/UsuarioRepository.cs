@@ -158,7 +158,7 @@ namespace senai_gp3_webApi.Repositories
             }
             else
             {
-                usuarioAchado.MediaAvaliacao = ( avaliacaousuarios.Sum() / avaliacaousuarios.Count ) / 10;
+                usuarioAchado.MediaAvaliacao = ( avaliacaousuarios.Sum() / avaliacaousuarios.Count ) * 10;
             }
 
             ctx.SaveChanges();
