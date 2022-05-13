@@ -52,7 +52,6 @@ namespace senai_gp3_webApi.Repositories
                     IdDecisao = f.IdDecisao,
                     IdUsuario = f.IdUsuario,
                     ComentarioFeedBack = f.ComentarioFeedBack,
-                    NotaDecisao = f.NotaDecisao,
                     DataPublicacao = f.DataPublicacao,
                     ValorMoedas = f.ValorMoedas,
                     IdDecisaoNavigation = new Decisao() 
