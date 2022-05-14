@@ -1044,12 +1044,6 @@ namespace senai_gp3_webApi.Contexts
 
                 entity.Property(e => e.IdUnidadeSenai).HasColumnName("idUnidadeSenai");
 
-                entity.Property(e => e.LocalizacaoUsuario)
-                    .IsRequired()
-                    .HasMaxLength(256)
-                    .IsUnicode(false)
-                    .HasColumnName("localizacaoUsuario");
-
                 entity.Property(e => e.MediaAvaliacao)
                     .HasColumnType("decimal(2, 1)")
                     .HasColumnName("mediaAvaliacao");

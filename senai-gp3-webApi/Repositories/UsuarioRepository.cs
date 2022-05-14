@@ -95,11 +95,6 @@ namespace senai_gp3_webApi.Repositories
                     GestorAchado.IdUnidadeSenai = GestorAtualizado.IdUnidadeSenai;
                 }
 
-                if (GestorAtualizado.LocalizacaoUsuario != null)
-                {
-                    GestorAchado.LocalizacaoUsuario = GestorAtualizado.LocalizacaoUsuario;
-                }
-
                 ctx.Usuarios.Update(GestorAchado);
                 ctx.SaveChanges();
 
@@ -121,12 +116,12 @@ namespace senai_gp3_webApi.Repositories
                 CaminhoFotoPerfil = novoUsuario.CaminhoFotoPerfil,
                 DataNascimento = novoUsuario.DataNascimento,
                 IdTipoUsuario = novoUsuario.IdTipoUsuario,
-                Trofeus = novoUsuario.Trofeus,
+                Trofeus = 0,
                 IdCargo = novoUsuario.IdCargo,
                 IdUnidadeSenai = novoUsuario.IdUnidadeSenai,
-                LocalizacaoUsuario = novoUsuario.LocalizacaoUsuario,
-                SaldoMoeda = novoUsuario.SaldoMoeda,
-                Vantagens = novoUsuario.Vantagens
+                UsuarioAtivo = true,
+                SaldoMoeda = 0,
+                Vantagens = 0
             };
 
             ctx.Usuarios.Add(usuario);
@@ -157,7 +152,7 @@ namespace senai_gp3_webApi.Repositories
             }
             else
             {
-                usuarioAchado.MediaAvaliacao = ( avaliacaousuarios.Sum() / avaliacaousuarios.Count );
+                usuarioAchado.MediaAvaliacao = (avaliacaousuarios.Sum() / avaliacaousuarios.Count);
             }
 
             ctx.SaveChanges();
@@ -247,7 +242,6 @@ namespace senai_gp3_webApi.Repositories
                     Trofeus = u.Trofeus,
                     IdCargo = u.IdCargo,
                     IdUnidadeSenai = u.IdUnidadeSenai,
-                    LocalizacaoUsuario = u.LocalizacaoUsuario,
                     SaldoMoeda = u.SaldoMoeda,
                     Vantagens = u.Vantagens,
                     MediaAvaliacao = u.MediaAvaliacao,
@@ -272,9 +266,9 @@ namespace senai_gp3_webApi.Repositories
 
         public Usuario ListarUsuarioPorId(int idUsuario)
         {
-            CalcularMediaAvaliacao(idUsuario);
-            CalcularProdutividade(idUsuario);
-            CalcularSatisfacao(idUsuario);
+            //CalcularMediaAvaliacao(idUsuario);
+            //CalcularProdutividade(idUsuario);
+            //CalcularSatisfacao(idUsuario);
 
             return ctx.Usuarios.Select(u => new Usuario
             {
@@ -289,7 +283,6 @@ namespace senai_gp3_webApi.Repositories
                 Trofeus = u.Trofeus,
                 IdCargo = u.IdCargo,
                 IdUnidadeSenai = u.IdUnidadeSenai,
-                LocalizacaoUsuario = u.LocalizacaoUsuario,
                 SaldoMoeda = u.SaldoMoeda,
                 Vantagens = u.Vantagens,
                 MediaAvaliacao = u.MediaAvaliacao,
@@ -325,15 +318,13 @@ namespace senai_gp3_webApi.Repositories
                     ctx.Usuarios.Update(usuario);
                     ctx.SaveChanges();
                 }
-                else
-                {
-                    // comparada senha que fornecida pelo usuário com a senha que já está criptografa no banco
-                    bool confere = Criptografia.CompararSenha(senha, usuario.Senha);
 
-                    // caso a comparação seja válida retorne o usuário
-                    if (confere)
-                        return usuario;
-                }
+                // comparada senha que fornecida pelo usuário com a senha que já está criptografa no banco
+                bool confere = Criptografia.CompararSenha(senha, usuario.Senha);
+
+                // caso a comparação seja válida retorne o usuário
+                if (confere)
+                    return usuario;
 
 
             }
@@ -377,7 +368,7 @@ namespace senai_gp3_webApi.Repositories
             {
                 return false;
             }
-            else if (senha != SENHA_PADRAO)
+            else if (senha == SENHA_PADRAO)
             {
                 return false;
             }

@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Swashbuckle.AspNetCore.Annotations;
+using System;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace senai_gp3_webApi.ViewModels
@@ -22,28 +24,16 @@ namespace senai_gp3_webApi.ViewModels
         [Required(ErrorMessage = "O Email deve ser preenchido!")]
         public string Email { get; set; }
         
-        [Required(ErrorMessage = "Senha deve ser preenchido!")]
-        public string Senha { get; set; }
-        
         [Required(ErrorMessage = "Data deve ser preenchida!")]
         [DataType(DataType.Date)]
         public DateTime DataNascimento { get; set; }
         
-        public short Vantagens { get; set; }
-        
-        public decimal NivelSatisfacao { get; set; }
-        
         [Required(ErrorMessage = "CPF deve ser preenchido!")]
         public string Cpf { get; set; }
-        
-        public int SaldoMoeda { get; set; }
-        
-        public int Trofeus { get; set; }
 
-        [Required(ErrorMessage = "Localizacao do Usuario não poder ser nula!")]
-        public string LocalizacaoUsuario { get; set; }
-        
+        [SwaggerSchema(ReadOnly = true)]
+        [JsonIgnore]
         public string CaminhoFotoPerfil { get; set; }
-        
+
     }
 }

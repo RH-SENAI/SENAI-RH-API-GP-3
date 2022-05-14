@@ -63,7 +63,7 @@ namespace senai_gp3_webApi.Controllers
         {
             try
             {
-                if (fotoPerfil == null)
+                if (fotoPerfil != null)
                 {
                     novoUsuario.CaminhoFotoPerfil = "imagem-padrao.png";
                 }
@@ -113,11 +113,11 @@ namespace senai_gp3_webApi.Controllers
                 if (gestorAchado != null)
                 {
                     //Verifica se esse usuário é um gestor
-                    if (gestorAchado.IdTipoUsuario == 2)
+                    if (gestorAchado.IdCargo == 3)
                     {
                         if (novaFotoPerfil != null)
                         {
-                            gestorAchado.CaminhoFotoPerfil = Upload.AtualizarFoto(gestorAchado.CaminhoFotoPerfil, novaFotoPerfil);
+                            gestorAtualizado.CaminhoFotoPerfil = Upload.AtualizarFoto(gestorAchado.CaminhoFotoPerfil, novaFotoPerfil);
                         }
 
                         return Ok(_usuarioRepository.AtualizarGestor(idUsuario, gestorAtualizado));
@@ -146,14 +146,14 @@ namespace senai_gp3_webApi.Controllers
 
                 if (funcionarioAchado != null)
                 {
-                    //Verifica se esse usuário é um funcionario
-                    if (funcionarioAchado.IdTipoUsuario == 1)
+                    //Verifica se esse usuário não é um gestor
+                    if (funcionarioAchado.IdCargo != 3)
                     {
                         //Verifica se o funcionario quis atualizar sua própria foto
                         if (novaFotoPerfil != null)
                         {
                             //Atualiza a foto lá no blob
-                            funcionarioAchado.CaminhoFotoPerfil = Upload.AtualizarFoto(funcionarioAchado.CaminhoFotoPerfil, novaFotoPerfil);
+                            funcionarioAtualizado.CaminhoFotoPerfil = Upload.AtualizarFoto(funcionarioAchado.CaminhoFotoPerfil, novaFotoPerfil);
                         }
 
                         return Ok(_usuarioRepository.AtualizarFuncionario(idUsuario, funcionarioAtualizado));
