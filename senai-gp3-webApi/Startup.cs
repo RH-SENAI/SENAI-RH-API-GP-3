@@ -62,6 +62,7 @@ namespace senai_gp3_webApi
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+                c.EnableAnnotations();
             });
 
             services.AddDbContext<senaiRhContext>(options =>

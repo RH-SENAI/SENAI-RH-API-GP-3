@@ -1,6 +1,7 @@
 ﻿using senai_gp3_webApi.Contexts;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Interfaces;
+using senai_gp3_webApi.SentimentAnalisys;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,16 @@ namespace senai_gp3_webApi.Repositories
 
         public void CadastrarFb(Feedback novoFeedback)
         {
+            SentimentAnalysis sentimentAnalisys = new();
+
+            // Pega o score da IA
+            var analiseSentimento = sentimentAnalisys.AnalisarTexto(novoFeedback.ComentarioFeedBack);
+
+            // Atribui os scores
+            novoFeedback.Positivo = Convert.ToDecimal(analiseSentimento.ConfidenceScores.Positive);
+            novoFeedback.Negativo = Convert.ToDecimal(analiseSentimento.ConfidenceScores.Negative);
+            novoFeedback.Neutro = Convert.ToDecimal(analiseSentimento.ConfidenceScores.Negative);
+
             ctx.Feedbacks.Add(novoFeedback);
             ctx.SaveChanges();
         }
