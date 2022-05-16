@@ -50,7 +50,7 @@ namespace senai_gp3_webApi.Contexts
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("name=AzureDBConnetionString");
+                optionsBuilder.UseSqlServer("Data Source=senairh.database.windows.net; initial catalog=DBProjetoSenaiRH; user Id=admin_projeto; pwd=SenaiRH123*\n;");
             }
         }
 
@@ -268,7 +268,7 @@ namespace senai_gp3_webApi.Contexts
             modelBuilder.Entity<Comentariocurso>(entity =>
             {
                 entity.HasKey(e => e.IdComentarioCurso)
-                    .HasName("PK__COMENTAR__71861C41B496446B");
+                    .HasName("PK__COMENTAR__71861C413BF68F6C");
 
                 entity.ToTable("COMENTARIOCURSO");
 
@@ -299,18 +299,6 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.Positivo)
                     .HasColumnType("decimal(2, 1)")
                     .HasColumnName("positivo");
-
-                entity.HasOne(d => d.IdCursoNavigation)
-                    .WithMany(p => p.Comentariocursos)
-                    .HasForeignKey(d => d.IdCurso)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__COMENTARI__idCur__0EF836A4");
-
-                entity.HasOne(d => d.IdUsuarioNavigation)
-                    .WithMany(p => p.Comentariocursos)
-                    .HasForeignKey(d => d.IdUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__COMENTARI__idUsu__0FEC5ADD");
             });
 
             modelBuilder.Entity<Comentariodesconto>(entity =>
@@ -364,7 +352,7 @@ namespace senai_gp3_webApi.Contexts
             modelBuilder.Entity<Curso>(entity =>
             {
                 entity.HasKey(e => e.IdCurso)
-                    .HasName("PK__CURSO__8551ED0522DDBDCD");
+                    .HasName("PK__CURSO__8551ED055637D2DB");
 
                 entity.ToTable("CURSO");
 
@@ -411,23 +399,12 @@ namespace senai_gp3_webApi.Contexts
                     .HasColumnName("siteCurso");
 
                 entity.Property(e => e.ValorCurso).HasColumnName("valorCurso");
-
-                entity.HasOne(d => d.IdEmpresaNavigation)
-                    .WithMany(p => p.Cursos)
-                    .HasForeignKey(d => d.IdEmpresa)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CURSO__idEmpresa__12C8C788");
-
-                entity.HasOne(d => d.IdSituacaoInscricaoNavigation)
-                    .WithMany(p => p.Cursos)
-                    .HasForeignKey(d => d.IdSituacaoInscricao)
-                    .HasConstraintName("FK__CURSO__idSituaca__13BCEBC1");
             });
 
             modelBuilder.Entity<Cursofavorito>(entity =>
             {
                 entity.HasKey(e => e.IdCursoFavorito)
-                    .HasName("PK__CURSOFAV__B7680EB18D7AFC77");
+                    .HasName("PK__CURSOFAV__B7680EB1967E2372");
 
                 entity.ToTable("CURSOFAVORITO");
 
@@ -436,18 +413,6 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.IdCurso).HasColumnName("idCurso");
 
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
-
-                entity.HasOne(d => d.IdCursoNavigation)
-                    .WithMany(p => p.Cursofavoritos)
-                    .HasForeignKey(d => d.IdCurso)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CURSOFAVO__idCur__14B10FFA");
-
-                entity.HasOne(d => d.IdUsuarioNavigation)
-                    .WithMany(p => p.Cursofavoritos)
-                    .HasForeignKey(d => d.IdUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__CURSOFAVO__idUsu__15A53433");
             });
 
             modelBuilder.Entity<Decisao>(entity =>
@@ -817,7 +782,7 @@ namespace senai_gp3_webApi.Contexts
             modelBuilder.Entity<Registrocurso>(entity =>
             {
                 entity.HasKey(e => e.IdRegistroCurso)
-                    .HasName("PK__REGISTRO__0FE8B39F7C2723B9");
+                    .HasName("PK__REGISTRO__0FE8B39F7D8C2C14");
 
                 entity.ToTable("REGISTROCURSO");
 
@@ -828,24 +793,6 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.IdSituacaoAtividade).HasColumnName("idSituacaoAtividade");
 
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
-
-                entity.HasOne(d => d.IdCursoNavigation)
-                    .WithMany(p => p.Registrocursos)
-                    .HasForeignKey(d => d.IdCurso)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__REGISTROC__idCur__25DB9BFC");
-
-                entity.HasOne(d => d.IdSituacaoAtividadeNavigation)
-                    .WithMany(p => p.Registrocursos)
-                    .HasForeignKey(d => d.IdSituacaoAtividade)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__REGISTROC__idSit__26CFC035");
-
-                entity.HasOne(d => d.IdUsuarioNavigation)
-                    .WithMany(p => p.Registrocursos)
-                    .HasForeignKey(d => d.IdUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__REGISTROC__idUsu__27C3E46E");
             });
 
             modelBuilder.Entity<Registrodesconto>(entity =>

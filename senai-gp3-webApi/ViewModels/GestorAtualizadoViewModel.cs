@@ -25,8 +25,6 @@ namespace senai_gp3_webApi.ViewModels
 
         public string Cpf { get; set; }
 
-        public string LocalizacaoUsuario { get; set; }
-
         public string CaminhoFotoPerfil { get; set; }
     }
 }

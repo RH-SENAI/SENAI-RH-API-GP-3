@@ -15,8 +15,5 @@ namespace senai_gp3_webApi.Domains
         public decimal Neutro { get; set; }
         public decimal AvaliacaoComentario { get; set; }
         public string ComentarioCurso1 { get; set; }
-
-        public virtual Curso IdCursoNavigation { get; set; }
-        public virtual Usuario IdUsuarioNavigation { get; set; }
     }
 }

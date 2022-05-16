@@ -10,8 +10,5 @@ namespace senai_gp3_webApi.Domains
         public int IdCursoFavorito { get; set; }
         public int IdCurso { get; set; }
         public int IdUsuario { get; set; }
-
-        public virtual Curso IdCursoNavigation { get; set; }
-        public virtual Usuario IdUsuarioNavigation { get; set; }
     }
 }
