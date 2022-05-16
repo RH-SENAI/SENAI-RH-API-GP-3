@@ -125,7 +125,6 @@ namespace senai_gp3_webApi.Repositories
                 IdCargo = novoUsuario.IdCargo,
                 IdUnidadeSenai = novoUsuario.IdUnidadeSenai,
                 LocalizacaoUsuario = novoUsuario.LocalizacaoUsuario,
-                NivelSatisfacao = novoUsuario.NivelSatisfacao,
                 SaldoMoeda = novoUsuario.SaldoMoeda,
                 Vantagens = novoUsuario.Vantagens
             };
@@ -198,28 +197,28 @@ namespace senai_gp3_webApi.Repositories
 
         public void CalcularSatisfacao(int idUsuario)
         {
-            Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-            List<decimal> notas = new();
+            //Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
+            //List<decimal> notas = new();
 
-            foreach (var fb in ctx.Feedbacks)
-            {
-                if (fb.IdUsuario == idUsuario)
-                {
-                    notas.Add(fb.NotaDecisao);
-                }
-            }
+            //foreach (var fb in ctx.Feedbacks)
+            //{
+            //    if (fb.IdUsuario == idUsuario)
+            //    {
+            //        notas.Add(fb.NotaDecisao);
+            //    }
+            //}
 
-            if (notas.Count == 0)
-            {
-                usuario.NivelSatisfacao = 0;
-            }
-            else
-            {
-                // Calcular media
-                usuario.NivelSatisfacao = ((notas.Sum() / notas.Count) / 5);
-            }
+            //if (notas.Count == 0)
+            //{
+            //    usuario.NivelSatisfacao = 0;
+            //}
+            //else
+            //{
+            //    // Calcular media
+            //    usuario.NivelSatisfacao = ((notas.Sum() / notas.Count) / 5);
+            //}
 
-            ctx.SaveChanges();
+            //ctx.SaveChanges();
         }
 
         public void DeletarUsuario(int idUsuario)
@@ -246,7 +245,6 @@ namespace senai_gp3_webApi.Repositories
                     IdCargo = u.IdCargo,
                     IdUnidadeSenai = u.IdUnidadeSenai,
                     LocalizacaoUsuario = u.LocalizacaoUsuario,
-                    NivelSatisfacao = u.NivelSatisfacao,
                     SaldoMoeda = u.SaldoMoeda,
                     Vantagens = u.Vantagens,
                     MediaAvaliacao = u.MediaAvaliacao,
@@ -289,7 +287,6 @@ namespace senai_gp3_webApi.Repositories
                 IdCargo = u.IdCargo,
                 IdUnidadeSenai = u.IdUnidadeSenai,
                 LocalizacaoUsuario = u.LocalizacaoUsuario,
-                NivelSatisfacao = u.NivelSatisfacao,
                 SaldoMoeda = u.SaldoMoeda,
                 Vantagens = u.Vantagens,
                 MediaAvaliacao = u.MediaAvaliacao,
