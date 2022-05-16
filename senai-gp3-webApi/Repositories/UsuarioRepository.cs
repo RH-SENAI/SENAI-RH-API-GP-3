@@ -162,30 +162,32 @@ namespace senai_gp3_webApi.Repositories
         {
             Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
 
-            List<Minhasatividade> atividadeUsuario = new();
+            List<Minhasatividade> totalAtividadesUsuario = new();
 
-            int numeroAtividadesFeitas = 0;
+            int qtdeAtividadesConcluidas = 0;
+
 
             foreach (var atividade in ctx.Minhasatividades)
             {
                 if (atividade.IdUsuario == usuario.IdUsuario)
                 {
-                    atividadeUsuario.Add(atividade);
+                    totalAtividadesUsuario.Add(atividade);
                 }
             }
 
+
             //Procura todas as atividades daquele usuário
-            foreach (var atividade in atividadeUsuario)
+            foreach (var atividade in totalAtividadesUsuario)
             {
                 //Verifica se a atividade pertence aquele usuario e se está Finalizada
                 if (atividade.IdSituacaoAtividade == 1)
                 {
-                    numeroAtividadesFeitas += 1;
+                    qtdeAtividadesConcluidas += 1;
                 }
             }
 
             // Atribui uma nota ao usuário
-            usuario.NotaProdutividade = numeroAtividadesFeitas;
+            usuario.NotaProdutividade = qtdeAtividadesConcluidas / totalAtividadesUsuario.Count();
             ctx.SaveChanges();
 
         }
