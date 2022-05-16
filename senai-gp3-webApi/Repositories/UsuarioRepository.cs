@@ -162,61 +162,101 @@ namespace senai_gp3_webApi.Repositories
         {
             Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
 
-            List<Minhasatividade> atividadeUsuario = new();
+            List<Minhasatividade> totalAtividadesUsuario = new();
 
-            int numeroAtividadesFeitas = 0;
+            int qtdeAtividadesConcluidas = 0;
+
 
             foreach (var atividade in ctx.Minhasatividades)
             {
                 if (atividade.IdUsuario == usuario.IdUsuario)
                 {
-                    atividadeUsuario.Add(atividade);
+                    totalAtividadesUsuario.Add(atividade);
                 }
             }
 
+
             //Procura todas as atividades daquele usuário
-            foreach (var atividade in atividadeUsuario)
+            foreach (var atividade in totalAtividadesUsuario)
             {
                 //Verifica se a atividade pertence aquele usuario e se está Finalizada
                 if (atividade.IdSituacaoAtividade == 1)
                 {
-                    numeroAtividadesFeitas += 1;
+                    qtdeAtividadesConcluidas += 1;
                 }
             }
 
             // Atribui uma nota ao usuário
-            usuario.NotaProdutividade = numeroAtividadesFeitas;
+            usuario.NotaProdutividade = qtdeAtividadesConcluidas / totalAtividadesUsuario.Count();
             ctx.SaveChanges();
 
         }
 
         public void CalcularSatisfacao(int idUsuario)
         {
-            Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-            List<decimal> notas = new();
+            Usuario usuarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
 
-            //foreach (var fb in ctx.Feedbacks)
-            //{
-            //    if (fb.IdUsuario == idUsuario)
-            //    {
-            //        notas.Add(fb.NotaDecisao);
-            //    }
-            //}
+            // Lista para guardar as médias dos valores retornado pela IA
+            List<decimal> negativo = new();
+            List<decimal> positivo = new();
+            List<decimal> neutro = new();
 
-            //if (notas.Count == 0)
-            //{
-            //    usuario.NivelSatisfacao = 0;
-            //}
-            //else
-            //{
-            //    // Calcular media
-            //    usuario.NivelSatisfacao = ((notas.Sum() / notas.Count) / 5);
-            //}
 
-            //ctx.SaveChanges();
+            // Pegando todos valores de positivo e neutro que vieram de tudo isso
+            foreach (var fb in ctx.Feedbacks)
+            {
+                if (fb.IdUsuario == idUsuario)
+                {
+                    positivo.Add(fb.Positivo);
+                    negativo.Add(fb.Negativo);
+                    neutro.Add(fb.Neutro);
+                }
+            }
 
-            throw new System.NotImplementedException();
+            foreach (var comentariocurso in ctx.Comentariocursos)
+            {
+                if (comentariocurso.IdUsuario == idUsuario)
+                {
+                    positivo.Add(comentariocurso.Positivo);
+                    negativo.Add(comentariocurso.Negativo);
+                    neutro.Add(comentariocurso.Neutro);
+                }
+            }
 
+            foreach (var comentarioDesconto in ctx.Comentariodescontos)
+            {
+                if (comentarioDesconto.IdUsuario == idUsuario)
+                {
+                    positivo.Add(comentarioDesconto.Positivo);
+                    negativo.Add(comentarioDesconto.Negativo);
+                    neutro.Add(comentarioDesconto.Neutro);
+                }
+            }
+
+            // Verificação para caso e os valores seja
+            if (positivo.Count == 0)
+            {
+                usuarioAchado.Positivo = 0;
+            }
+            else if (negativo.Count == 0)
+            {
+                usuarioAchado.Negativo = 0;
+            }
+            else if (neutro.Count == 0)
+            {
+                usuarioAchado.Neutro = 0;
+            }
+            else
+            {
+                // Calcular media e adiciona aos usuário
+                usuarioAchado.Positivo = positivo.Sum() / positivo.Count;
+                usuarioAchado.Negativo = negativo.Sum() / negativo.Count;
+                usuarioAchado.Neutro = neutro.Sum() / neutro.Count;
+
+            }
+
+            ctx.Usuarios.Update(usuarioAchado);
+            ctx.SaveChanges();
         }
 
         public void DeletarUsuario(int idUsuario)
@@ -268,7 +308,7 @@ namespace senai_gp3_webApi.Repositories
         {
             //CalcularMediaAvaliacao(idUsuario);
             //CalcularProdutividade(idUsuario);
-            //CalcularSatisfacao(idUsuario);
+            CalcularSatisfacao(idUsuario);
 
             return ctx.Usuarios.Select(u => new Usuario
             {
@@ -286,6 +326,7 @@ namespace senai_gp3_webApi.Repositories
                 SaldoMoeda = u.SaldoMoeda,
                 Vantagens = u.Vantagens,
                 MediaAvaliacao = u.MediaAvaliacao,
+                NotaProdutividade = (decimal)u.NotaProdutividade,
                 IdCargoNavigation = new Cargo()
                 {
                     IdCargo = u.IdCargoNavigation.IdCargo,

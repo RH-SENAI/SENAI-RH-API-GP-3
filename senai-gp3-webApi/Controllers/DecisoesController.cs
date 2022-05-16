@@ -49,8 +49,8 @@ namespace senai_gp3_webApi.Controllers
                 if (novaDecisao == null)
                 {
                     return BadRequest("Objeto Vazio!");
-
-                } else
+                }
+                else
                 {
                     novaDecisao.IdUsuario = idUsuario;
                     _decisaoRepository.CadastrarDecisao(novaDecisao);
