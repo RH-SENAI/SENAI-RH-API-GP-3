@@ -38,7 +38,7 @@ namespace senai_gp3_webApi.Repositories
             // Atribui os scores
             novoFeedback.Positivo = Convert.ToDecimal(analiseSentimento.ConfidenceScores.Positive);
             novoFeedback.Negativo = Convert.ToDecimal(analiseSentimento.ConfidenceScores.Negative);
-            novoFeedback.Neutro = Convert.ToDecimal(analiseSentimento.ConfidenceScores.Negative);
+            novoFeedback.Neutro = Convert.ToDecimal(analiseSentimento.ConfidenceScores.Neutral);
 
             ctx.Feedbacks.Add(novoFeedback);
             ctx.SaveChanges();
