@@ -120,7 +120,8 @@ namespace senai_gp3_webApi.Repositories
                 IdCargo = novoUsuario.IdCargo,
                 IdUnidadeSenai = novoUsuario.IdUnidadeSenai,
                 UsuarioAtivo = true,
-                SaldoMoeda = 0,
+                MediaAvaliacao = 0,
+                NotaProdutividade = 0,
                 Vantagens = 0
             };
 
@@ -133,9 +134,7 @@ namespace senai_gp3_webApi.Repositories
 
         public void CalcularMediaAvaliacao(int idUsuario)
         {
-
             Usuario usuarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-
             List<decimal> avaliacaousuarios = new();
 
             foreach (var avaliacaoUsuario in ctx.Avaliacaousuarios)
@@ -161,9 +160,7 @@ namespace senai_gp3_webApi.Repositories
         public void CalcularProdutividade(int idUsuario)
         {
             Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-
             List<Minhasatividade> totalAtividadesUsuario = new();
-
             int qtdeAtividadesConcluidas = 0;
 
 
@@ -285,6 +282,11 @@ namespace senai_gp3_webApi.Repositories
                     SaldoMoeda = u.SaldoMoeda,
                     Vantagens = u.Vantagens,
                     MediaAvaliacao = u.MediaAvaliacao,
+                    Negativo = u.Negativo,
+                    Positivo = u.Positivo,
+                    Neutro = u.Neutro,
+                    NotaProdutividade = u.NotaProdutividade,
+                    UsuarioAtivo = u.UsuarioAtivo,
                     IdCargoNavigation = new Cargo()
                     {
                         IdCargo = u.IdCargoNavigation.IdCargo,
@@ -326,7 +328,11 @@ namespace senai_gp3_webApi.Repositories
                 SaldoMoeda = u.SaldoMoeda,
                 Vantagens = u.Vantagens,
                 MediaAvaliacao = u.MediaAvaliacao,
-                NotaProdutividade = (decimal)u.NotaProdutividade,
+                Negativo = u.Negativo,
+                Positivo = u.Positivo,
+                Neutro = u.Neutro,
+                NotaProdutividade = u.NotaProdutividade,
+                UsuarioAtivo = u.UsuarioAtivo,
                 IdCargoNavigation = new Cargo()
                 {
                     IdCargo = u.IdCargoNavigation.IdCargo,

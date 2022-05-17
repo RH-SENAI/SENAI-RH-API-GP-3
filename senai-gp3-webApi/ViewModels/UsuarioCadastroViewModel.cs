@@ -31,6 +31,9 @@ namespace senai_gp3_webApi.ViewModels
         [Required(ErrorMessage = "CPF deve ser preenchido!")]
         public string Cpf { get; set; }
 
+        [Required(ErrorMessage = "Saldo de Moedas deve ser preenchido!")]
+        public int SaldoMoeda { get; set; }
+
         [SwaggerSchema(ReadOnly = true)]
         [JsonIgnore]
         public string CaminhoFotoPerfil { get; set; }
