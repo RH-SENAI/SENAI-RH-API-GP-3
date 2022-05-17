@@ -10,10 +10,13 @@ namespace senai_gp3_webApi.Domains
         public int IdComentarioCurso { get; set; }
         public int IdCurso { get; set; }
         public int IdUsuario { get; set; }
-        public decimal Positivo { get; set; }
-        public decimal Negativo { get; set; }
-        public decimal Neutro { get; set; }
         public decimal AvaliacaoComentario { get; set; }
         public string ComentarioCurso1 { get; set; }
+        public decimal? Positivo { get; set; }
+        public decimal? Negativo { get; set; }
+        public decimal? Neutro { get; set; }
+
+        public virtual Curso IdCursoNavigation { get; set; }
+        public virtual Usuario IdUsuarioNavigation { get; set; }
     }
 }

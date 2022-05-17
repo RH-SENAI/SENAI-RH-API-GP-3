@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 
 #nullable disable
 
@@ -14,11 +13,14 @@ namespace senai_gp3_webApi.Domains
             Avaliacaounidadesenais = new HashSet<Avaliacaounidadesenai>();
             AvaliacaousuarioIdUsuarioAvaliadoNavigations = new HashSet<Avaliacaousuario>();
             AvaliacaousuarioIdUsuarioAvaliadorNavigations = new HashSet<Avaliacaousuario>();
+            Comentariocursos = new HashSet<Comentariocurso>();
             Comentariodescontos = new HashSet<Comentariodesconto>();
+            Cursofavoritos = new HashSet<Cursofavorito>();
             Decisaos = new HashSet<Decisao>();
             Descontofavoritos = new HashSet<Descontofavorito>();
             Feedbacks = new HashSet<Feedback>();
             Minhasatividades = new HashSet<Minhasatividade>();
+            Registrocursos = new HashSet<Registrocurso>();
             Registrodescontos = new HashSet<Registrodesconto>();
         }
 
@@ -31,9 +33,9 @@ namespace senai_gp3_webApi.Domains
         public string Senha { get; set; }
         public DateTime DataNascimento { get; set; }
         public short Vantagens { get; set; }
-        public decimal Positivo { get; set; }
-        public decimal Negativo { get; set; }
-        public decimal Neutro { get; set; }
+        public decimal? Positivo { get; set; }
+        public decimal? Negativo { get; set; }
+        public decimal? Neutro { get; set; }
         public string Cpf { get; set; }
         public int SaldoMoeda { get; set; }
         public int Trofeus { get; set; }
@@ -49,11 +51,14 @@ namespace senai_gp3_webApi.Domains
         public virtual ICollection<Avaliacaounidadesenai> Avaliacaounidadesenais { get; set; }
         public virtual ICollection<Avaliacaousuario> AvaliacaousuarioIdUsuarioAvaliadoNavigations { get; set; }
         public virtual ICollection<Avaliacaousuario> AvaliacaousuarioIdUsuarioAvaliadorNavigations { get; set; }
+        public virtual ICollection<Comentariocurso> Comentariocursos { get; set; }
         public virtual ICollection<Comentariodesconto> Comentariodescontos { get; set; }
+        public virtual ICollection<Cursofavorito> Cursofavoritos { get; set; }
         public virtual ICollection<Decisao> Decisaos { get; set; }
         public virtual ICollection<Descontofavorito> Descontofavoritos { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<Minhasatividade> Minhasatividades { get; set; }
+        public virtual ICollection<Registrocurso> Registrocursos { get; set; }
         public virtual ICollection<Registrodesconto> Registrodescontos { get; set; }
     }
 }

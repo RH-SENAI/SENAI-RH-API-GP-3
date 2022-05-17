@@ -23,6 +23,8 @@ namespace senai_gp3_webApi.Domains
         public decimal Positive { get; set; }
         public decimal Negativo { get; set; }
         public decimal Neutro { get; set; }
+        public int? FuncionarioAtivos { get; set; }
+        public int? QtdDeFuncionarios { get; set; }
 
         public virtual Localizacao IdLocalizacaoNavigation { get; set; }
         public virtual ICollection<Avaliacaounidadesenai> Avaliacaounidadesenais { get; set; }

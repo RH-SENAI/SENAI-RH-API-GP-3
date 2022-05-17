@@ -26,7 +26,6 @@ namespace senai_gp3_webApi.Interfaces
         /// <param name="unidadesenai">unidade que será cadastrada</param>
         void CadastrarUniSenai(Unidadesenai unidadesenai);
 
-
         /// <summary>
         /// Calcula a satisfacao
         /// </summary>
@@ -54,5 +53,9 @@ namespace senai_gp3_webApi.Interfaces
         /// <param name="idUniSenai">Id correspondente com a unidade senai desejada</param>
         /// <returns>A unidade senai desejada</returns>
         Unidadesenai ListarUniSenaiPorId(int idUniSenai);
+
+        void CalcularFuncionariosAtivos(int idUniSenai);
+
+        void CalcularQtdFuncionarios(int idUniSenai);
     }
 }

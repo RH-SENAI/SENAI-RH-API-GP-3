@@ -73,5 +73,6 @@ namespace senai_gp3_webApi
         /// </summary>
         /// <param name="idUsuario">id do usuario</param>
         void CalcularProdutividade(int idUsuario);
+
     }
 }

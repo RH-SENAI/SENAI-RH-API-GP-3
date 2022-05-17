@@ -9,6 +9,7 @@ namespace senai_gp3_webApi.Domains
     {
         public Empresa()
         {
+            Cursos = new HashSet<Curso>();
             Descontos = new HashSet<Desconto>();
         }
 
@@ -20,6 +21,7 @@ namespace senai_gp3_webApi.Domains
         public string CaminhoImagemEmpresa { get; set; }
 
         public virtual Localizacao IdLocalizacaoNavigation { get; set; }
+        public virtual ICollection<Curso> Cursos { get; set; }
         public virtual ICollection<Desconto> Descontos { get; set; }
     }
 }

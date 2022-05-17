@@ -63,7 +63,7 @@ namespace senai_gp3_webApi.Controllers
         {
             try
             {
-                if (fotoPerfil != null)
+                if (fotoPerfil == null)
                 {
                     novoUsuario.CaminhoFotoPerfil = "imagem-padrao.png";
                 }

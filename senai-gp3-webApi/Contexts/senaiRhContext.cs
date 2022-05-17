@@ -50,7 +50,7 @@ namespace senai_gp3_webApi.Contexts
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source=senairh.database.windows.net; initial catalog=DBProjetoSenaiRH; user Id=admin_projeto; pwd=SenaiRH123*\n;");
+                optionsBuilder.UseSqlServer("name=AzureDBConnetionString");
             }
         }
 
@@ -268,7 +268,7 @@ namespace senai_gp3_webApi.Contexts
             modelBuilder.Entity<Comentariocurso>(entity =>
             {
                 entity.HasKey(e => e.IdComentarioCurso)
-                    .HasName("PK__COMENTAR__71861C413BF68F6C");
+                    .HasName("PK__COMENTAR__71861C41BC9B3E34");
 
                 entity.ToTable("COMENTARIOCURSO");
 
@@ -289,16 +289,28 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
                 entity.Property(e => e.Negativo)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("negativo");
 
                 entity.Property(e => e.Neutro)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("neutro");
 
                 entity.Property(e => e.Positivo)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("positivo");
+
+                entity.HasOne(d => d.IdCursoNavigation)
+                    .WithMany(p => p.Comentariocursos)
+                    .HasForeignKey(d => d.IdCurso)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__COMENTARI__idCur__4EDDB18F");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.Comentariocursos)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__COMENTARI__idUsu__4FD1D5C8");
             });
 
             modelBuilder.Entity<Comentariodesconto>(entity =>
@@ -325,15 +337,15 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
                 entity.Property(e => e.Negativo)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("negativo");
 
                 entity.Property(e => e.Neutro)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("neutro");
 
                 entity.Property(e => e.Positivo)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("positivo");
 
                 entity.HasOne(d => d.IdDescontoNavigation)
@@ -352,7 +364,7 @@ namespace senai_gp3_webApi.Contexts
             modelBuilder.Entity<Curso>(entity =>
             {
                 entity.HasKey(e => e.IdCurso)
-                    .HasName("PK__CURSO__8551ED055637D2DB");
+                    .HasName("PK__CURSO__8551ED055608F00A");
 
                 entity.ToTable("CURSO");
 
@@ -399,12 +411,24 @@ namespace senai_gp3_webApi.Contexts
                     .HasColumnName("siteCurso");
 
                 entity.Property(e => e.ValorCurso).HasColumnName("valorCurso");
+
+                entity.HasOne(d => d.IdEmpresaNavigation)
+                    .WithMany(p => p.Cursos)
+                    .HasForeignKey(d => d.IdEmpresa)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__CURSO__idEmpresa__4B0D20AB");
+
+                entity.HasOne(d => d.IdSituacaoInscricaoNavigation)
+                    .WithMany(p => p.Cursos)
+                    .HasForeignKey(d => d.IdSituacaoInscricao)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__CURSO__idSituaca__4C0144E4");
             });
 
             modelBuilder.Entity<Cursofavorito>(entity =>
             {
                 entity.HasKey(e => e.IdCursoFavorito)
-                    .HasName("PK__CURSOFAV__B7680EB1967E2372");
+                    .HasName("PK__CURSOFAV__B7680EB14CD38EC8");
 
                 entity.ToTable("CURSOFAVORITO");
 
@@ -413,6 +437,18 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.IdCurso).HasColumnName("idCurso");
 
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+                entity.HasOne(d => d.IdCursoNavigation)
+                    .WithMany(p => p.Cursofavoritos)
+                    .HasForeignKey(d => d.IdCurso)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__CURSOFAVO__idCur__567ED357");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.Cursofavoritos)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__CURSOFAVO__idUsu__5772F790");
             });
 
             modelBuilder.Entity<Decisao>(entity =>
@@ -622,15 +658,15 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
                 entity.Property(e => e.Negativo)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("negativo");
 
                 entity.Property(e => e.Neutro)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("neutro");
 
                 entity.Property(e => e.Positivo)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("positivo");
 
                 entity.Property(e => e.ValorMoedas).HasColumnName("valorMoedas");
@@ -782,7 +818,7 @@ namespace senai_gp3_webApi.Contexts
             modelBuilder.Entity<Registrocurso>(entity =>
             {
                 entity.HasKey(e => e.IdRegistroCurso)
-                    .HasName("PK__REGISTRO__0FE8B39F7D8C2C14");
+                    .HasName("PK__REGISTRO__0FE8B39F7D1A3F7A");
 
                 entity.ToTable("REGISTROCURSO");
 
@@ -793,6 +829,24 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.IdSituacaoAtividade).HasColumnName("idSituacaoAtividade");
 
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
+
+                entity.HasOne(d => d.IdCursoNavigation)
+                    .WithMany(p => p.Registrocursos)
+                    .HasForeignKey(d => d.IdCurso)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__REGISTROC__idCur__5A4F643B");
+
+                entity.HasOne(d => d.IdSituacaoAtividadeNavigation)
+                    .WithMany(p => p.Registrocursos)
+                    .HasForeignKey(d => d.IdSituacaoAtividade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__REGISTROC__idSit__5C37ACAD");
+
+                entity.HasOne(d => d.IdUsuarioNavigation)
+                    .WithMany(p => p.Registrocursos)
+                    .HasForeignKey(d => d.IdUsuario)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__REGISTROC__idUsu__5B438874");
             });
 
             modelBuilder.Entity<Registrodesconto>(entity =>
@@ -905,6 +959,8 @@ namespace senai_gp3_webApi.Contexts
                     .IsUnicode(false)
                     .HasColumnName("emailUnidadeSenai");
 
+                entity.Property(e => e.FuncionarioAtivos).HasColumnName("funcionarioAtivos");
+
                 entity.Property(e => e.IdLocalizacao).HasColumnName("idLocalizacao");
 
                 entity.Property(e => e.MediaAvaliacaoUnidadeSenai)
@@ -930,6 +986,8 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.Positive)
                     .HasColumnType("decimal(2, 1)")
                     .HasColumnName("positive");
+
+                entity.Property(e => e.QtdDeFuncionarios).HasColumnName("qtdDeFuncionarios");
 
                 entity.Property(e => e.TelefoneUnidadeSenai)
                     .IsRequired()
@@ -996,11 +1054,11 @@ namespace senai_gp3_webApi.Contexts
                     .HasColumnName("mediaAvaliacao");
 
                 entity.Property(e => e.Negativo)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("negativo");
 
                 entity.Property(e => e.Neutro)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("neutro");
 
                 entity.Property(e => e.Nome)
@@ -1014,7 +1072,7 @@ namespace senai_gp3_webApi.Contexts
                     .HasColumnName("notaProdutividade");
 
                 entity.Property(e => e.Positivo)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("positivo");
 
                 entity.Property(e => e.SaldoMoeda).HasColumnName("saldoMoeda");

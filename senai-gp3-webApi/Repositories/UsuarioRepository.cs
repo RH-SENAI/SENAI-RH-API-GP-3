@@ -184,7 +184,7 @@ namespace senai_gp3_webApi.Repositories
             }
 
             // Atribui uma nota ao usuário
-            usuario.NotaProdutividade = qtdeAtividadesConcluidas / totalAtividadesUsuario.Count();
+            usuario.NotaProdutividade = qtdeAtividadesConcluidas / totalAtividadesUsuario.Count;
             ctx.SaveChanges();
 
         }
@@ -194,9 +194,9 @@ namespace senai_gp3_webApi.Repositories
             Usuario usuarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
 
             // Lista para guardar as médias dos valores retornado pela IA
-            List<decimal> negativo = new();
-            List<decimal> positivo = new();
-            List<decimal> neutro = new();
+            List<decimal?> negativo = new();
+            List<decimal?> positivo = new();
+            List<decimal?> neutro = new();
 
 
             // Pegando todos valores de positivo e neutro que vieram de tudo isso
@@ -247,7 +247,9 @@ namespace senai_gp3_webApi.Repositories
             {
                 // Calcular media e adiciona aos usuário
                 usuarioAchado.Positivo = positivo.Sum() / positivo.Count;
+
                 usuarioAchado.Negativo = negativo.Sum() / negativo.Count;
+ 
                 usuarioAchado.Neutro = neutro.Sum() / neutro.Count;
 
             }

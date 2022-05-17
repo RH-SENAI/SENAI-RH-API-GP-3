@@ -14,7 +14,7 @@ namespace senai_gp3_webApi.Repositories
 
         public UnidadesenaiRepository(senaiRhContext appContext)
         {
-            ctx = appContext;   
+            ctx = appContext;
         }
 
         public Unidadesenai AtualizarUniSenaiPorId(int idUniSenai, Unidadesenai UniSenaiAtualizada)
@@ -26,6 +26,11 @@ namespace senai_gp3_webApi.Repositories
         {
             ctx.Unidadesenais.Add(unidadesenai);
             ctx.SaveChanges();
+        }
+
+        public void CalcularFuncionariosAtivos(int idUniSenai)
+        {
+            throw new NotImplementedException();
         }
 
         public void CalcularProdutividade(int idUnidadeSenai)
@@ -63,6 +68,25 @@ namespace senai_gp3_webApi.Repositories
 
             // Calcular media
             unidadeSenai.NotaProdutividade = elementoCentral;
+            ctx.SaveChanges();
+        }
+
+        public void CalcularQtdFuncionarios(int idUniSenai)
+        {
+            Unidadesenai uniSenai = ctx.Unidadesenais.FirstOrDefault(uniSenai => uniSenai.IdUnidadeSenai == idUniSenai);
+            int qtdFuncionarios = 0;
+
+            foreach (var usuario in ctx.Usuarios)
+            {
+                if (usuario.IdUnidadeSenai == uniSenai.IdUnidadeSenai)
+                {
+                    qtdFuncionarios += 1;
+
+                }
+            }
+
+            uniSenai.QtdDeFuncionarios = qtdFuncionarios;
+            ctx.Unidadesenais.Update(uniSenai);
             ctx.SaveChanges();
         }
 
@@ -158,6 +182,7 @@ namespace senai_gp3_webApi.Repositories
         {
             //CalcularProdutividade(idUniSenai);
             //CalcularSatisfacao(idUniSenai);
+            CalcularQtdFuncionarios(idUniSenai);
             return ctx.Unidadesenais.FirstOrDefault(u => u.IdUnidadeSenai == idUniSenai);
         }
     }
