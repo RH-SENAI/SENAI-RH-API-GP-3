@@ -419,7 +419,7 @@ namespace senai_gp3_webApi.Repositories
             }
             else if (senha == SENHA_PADRAO)
             {
-                return false;
+                return true;
             }
             else
             {

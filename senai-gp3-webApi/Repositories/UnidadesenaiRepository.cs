@@ -30,7 +30,21 @@ namespace senai_gp3_webApi.Repositories
 
         public void CalcularFuncionariosAtivos(int idUniSenai)
         {
-            throw new NotImplementedException();
+            Unidadesenai uniSenai = ctx.Unidadesenais.FirstOrDefault(uniSenai => uniSenai.IdUnidadeSenai == idUniSenai);
+            int qtdFuncionariosAtivos = 0;
+
+            foreach (var usuario in ctx.Usuarios)
+            {
+                if (usuario.IdUnidadeSenai == uniSenai.IdUnidadeSenai && usuario.UsuarioAtivo == true)
+                {
+                    qtdFuncionariosAtivos += 1;
+
+                }
+            }
+
+            uniSenai.FuncionarioAtivos = qtdFuncionariosAtivos;
+            ctx.Unidadesenais.Update(uniSenai);
+            ctx.SaveChanges();
         }
 
         public void CalcularProdutividade(int idUnidadeSenai)
@@ -183,6 +197,7 @@ namespace senai_gp3_webApi.Repositories
             //CalcularProdutividade(idUniSenai);
             //CalcularSatisfacao(idUniSenai);
             CalcularQtdFuncionarios(idUniSenai);
+            CalcularFuncionariosAtivos(idUniSenai);
             return ctx.Unidadesenais.FirstOrDefault(u => u.IdUnidadeSenai == idUniSenai);
         }
     }
