@@ -54,12 +54,7 @@ namespace senai_gp3_webApi
         /// <returns>Um usuario que foi achado</returns>
         Usuario ListarUsuarioPorId(int idUsuario);
 
-        /// <summary>
-        /// Calcula a satisfacao
-        /// </summary>
-        /// <param name="idUsuario">id do Usuario</param>
-        /// <returns></returns>
-        void CalcularSatisfacao(int idUsuario);
+        public void CalcularValoresMediosIA_SatisfacaoGeral(int idUsuario);
 
         /// <summary>
         /// Calcula a média das avaliações do usuario

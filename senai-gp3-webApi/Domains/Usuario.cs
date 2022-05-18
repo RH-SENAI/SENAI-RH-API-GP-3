@@ -33,9 +33,15 @@ namespace senai_gp3_webApi.Domains
         public string Senha { get; set; }
         public DateTime DataNascimento { get; set; }
         public short Vantagens { get; set; }
-        public decimal? Positivo { get; set; }
-        public decimal? Negativo { get; set; }
-        public decimal? Neutro { get; set; }
+        public decimal? MedFeedbackNeg { get; set; }
+        public decimal? MedFeedbackNeu { get; set; }
+        public decimal? MedFeedbackPos { get; set; }
+        public decimal? MedCursosNeg { get; set; }
+        public decimal? MedCursosNeu { get; set; }
+        public decimal? MedCursosPos { get; set; }
+        public decimal? MedDescontosNeg { get; set; }
+        public decimal? MedDescontosNeu { get; set; }
+        public decimal? MedDescontosPos { get; set; }
         public string Cpf { get; set; }
         public int SaldoMoeda { get; set; }
         public int Trofeus { get; set; }
@@ -43,6 +49,7 @@ namespace senai_gp3_webApi.Domains
         public bool? UsuarioAtivo { get; set; }
         public decimal? NotaProdutividade { get; set; }
         public decimal? MediaAvaliacao { get; set; }
+        public decimal? MedSatisfacaoGeral { get; set; }
 
         public virtual Cargo IdCargoNavigation { get; set; }
         public virtual Tipousuario IdTipoUsuarioNavigation { get; set; }

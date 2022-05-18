@@ -189,73 +189,49 @@ namespace senai_gp3_webApi.Repositories
 
         }
 
-        public void CalcularSatisfacao(int idUsuario)
+        public void CalcularValoresMediosIA_SatisfacaoGeral(int idUsuario)
         {
-            Usuario usuarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
+            Usuario usuarioAtual = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
 
-            // Lista para guardar as médias dos valores retornado pela IA
-            List<decimal?> negativo = new();
-            List<decimal?> positivo = new();
-            List<decimal?> neutro = new();
+            if (usuarioAtual == null) Console.WriteLine("Usuario não encontrado");
 
-
-            // Pegando todos valores de positivo e neutro que vieram de tudo isso
-            foreach (var fb in ctx.Feedbacks)
-            {
-                if (fb.IdUsuario == idUsuario)
-                {
-                    positivo.Add(fb.Positivo);
-                    negativo.Add(fb.Negativo);
-                    neutro.Add(fb.Neutro);
-                }
-            }
-
-            foreach (var comentariocurso in ctx.Comentariocursos)
-            {
-                if (comentariocurso.IdUsuario == idUsuario)
-                {
-                    positivo.Add(comentariocurso.Positivo);
-                    negativo.Add(comentariocurso.Negativo);
-                    neutro.Add(comentariocurso.Neutro);
-                }
-            }
-
-            foreach (var comentarioDesconto in ctx.Comentariodescontos)
-            {
-                if (comentarioDesconto.IdUsuario == idUsuario)
-                {
-                    positivo.Add(comentarioDesconto.Positivo);
-                    negativo.Add(comentarioDesconto.Negativo);
-                    neutro.Add(comentarioDesconto.Neutro);
-                }
-            }
-
-            // Verificação para caso e os valores seja
-            if (positivo.Count == 0)
-            {
-                usuarioAchado.Positivo = 0;
-            }
-            else if (negativo.Count == 0)
-            {
-                usuarioAchado.Negativo = 0;
-            }
-            else if (neutro.Count == 0)
-            {
-                usuarioAchado.Neutro = 0;
-            }
             else
             {
-                // Calcular media e adiciona aos usuário
-                usuarioAchado.Positivo = positivo.Sum() / positivo.Count;
+                List<Feedback> listaFeedbacks = ctx.Feedbacks.Where(u => u.IdUsuario == idUsuario).ToList();
+                List<Comentariocurso> listaComentariosCursos = ctx.Comentariocursos.Where(u => u.IdUsuario == idUsuario).ToList();
+                List<Comentariodesconto> listaComentariosDescontos = ctx.Comentariodescontos.Where(u => u.IdUsuario == idUsuario).ToList();
 
-                usuarioAchado.Negativo = negativo.Sum() / negativo.Count;
- 
-                usuarioAchado.Neutro = neutro.Sum() / neutro.Count;
+                //usuarioAtual.MedFeedbackNeg = (listaFeedbacks.Sum(i => i.Negativo)) / listaFeedbacks.Count; // CALCULANDO A MEDIA MANUALMENTE
 
+                usuarioAtual.MedFeedbackNeg = listaFeedbacks.Average(i => i.Negativo);
+                usuarioAtual.MedFeedbackNeu = listaFeedbacks.Average(i => i.Neutro);
+                usuarioAtual.MedFeedbackPos = listaFeedbacks.Average(i => i.Positivo);
+                if (usuarioAtual.MedFeedbackPos == null) usuarioAtual.MedFeedbackPos = (decimal)0.5;
+                
+
+                usuarioAtual.MedCursosNeg = listaComentariosCursos.Average(i => i.Negativo);
+                usuarioAtual.MedCursosNeu = listaComentariosCursos.Average(i => i.Neutro);
+                usuarioAtual.MedCursosPos = listaComentariosCursos.Average(i => i.Positivo);
+                if (usuarioAtual.MedCursosPos == null) usuarioAtual.MedCursosPos = (decimal)0.5;
+
+                usuarioAtual.MedDescontosNeg = listaComentariosDescontos.Average(i => i.Negativo);
+                usuarioAtual.MedDescontosNeu = listaComentariosDescontos.Average(i => i.Neutro);
+                usuarioAtual.MedDescontosPos = listaComentariosDescontos.Average(i => i.Positivo);
+                if (usuarioAtual.MedDescontosPos == null) usuarioAtual.MedDescontosPos = (decimal)0.5;
+
+                decimal pesoFeedback = (decimal)1.20;
+                decimal pesoCurso = (decimal)1.00;
+                decimal pesoDesconto = (decimal)1.00;
+
+                usuarioAtual.MedSatisfacaoGeral = ((usuarioAtual.MedFeedbackPos * pesoFeedback) + (usuarioAtual.MedCursosPos * pesoCurso) + (usuarioAtual.MedDescontosPos * pesoDesconto)) / 
+                    (pesoFeedback + pesoCurso + pesoDesconto);
+
+                ctx.Usuarios.Update(usuarioAtual);
+                ctx.SaveChanges();
+
+                Console.WriteLine("Valores medios calculados com sucesso.");
             }
-
-            ctx.Usuarios.Update(usuarioAchado);
-            ctx.SaveChanges();
+                
         }
 
         public void DeletarUsuario(int idUsuario)
@@ -284,9 +260,16 @@ namespace senai_gp3_webApi.Repositories
                     SaldoMoeda = u.SaldoMoeda,
                     Vantagens = u.Vantagens,
                     MediaAvaliacao = u.MediaAvaliacao,
-                    Negativo = u.Negativo,
-                    Positivo = u.Positivo,
-                    Neutro = u.Neutro,
+                    MedFeedbackNeg = u.MedFeedbackNeg,
+                    MedFeedbackPos = u.MedFeedbackPos,
+                    MedFeedbackNeu = u.MedFeedbackNeu,
+                    MedCursosNeg = u.MedCursosNeg,
+                    MedCursosPos = u.MedCursosPos,
+                    MedCursosNeu = u.MedCursosNeu,
+                    MedDescontosNeg = u.MedDescontosNeg,
+                    MedDescontosPos = u.MedDescontosPos,
+                    MedDescontosNeu = u.MedDescontosNeu,
+                    MedSatisfacaoGeral = u.MedSatisfacaoGeral,
                     NotaProdutividade = u.NotaProdutividade,
                     UsuarioAtivo = u.UsuarioAtivo,
                     IdCargoNavigation = new Cargo()
@@ -312,7 +295,7 @@ namespace senai_gp3_webApi.Repositories
         {
             //CalcularMediaAvaliacao(idUsuario);
             //CalcularProdutividade(idUsuario);
-            CalcularSatisfacao(idUsuario);
+            CalcularValoresMediosIA_SatisfacaoGeral(idUsuario);
 
             return ctx.Usuarios.Select(u => new Usuario
             {
@@ -330,9 +313,16 @@ namespace senai_gp3_webApi.Repositories
                 SaldoMoeda = u.SaldoMoeda,
                 Vantagens = u.Vantagens,
                 MediaAvaliacao = u.MediaAvaliacao,
-                Negativo = u.Negativo,
-                Positivo = u.Positivo,
-                Neutro = u.Neutro,
+                MedFeedbackNeg = u.MedFeedbackNeg,
+                MedFeedbackPos = u.MedFeedbackPos,
+                MedFeedbackNeu = u.MedFeedbackNeu,
+                MedCursosNeg = u.MedCursosNeg,
+                MedCursosPos = u.MedCursosPos,
+                MedCursosNeu = u.MedCursosNeu,
+                MedDescontosNeg = u.MedDescontosNeg,
+                MedDescontosPos = u.MedDescontosPos,
+                MedDescontosNeu = u.MedDescontosNeu,
+                MedSatisfacaoGeral = u.MedSatisfacaoGeral,
                 NotaProdutividade = u.NotaProdutividade,
                 UsuarioAtivo = u.UsuarioAtivo,
                 IdCargoNavigation = new Cargo()
