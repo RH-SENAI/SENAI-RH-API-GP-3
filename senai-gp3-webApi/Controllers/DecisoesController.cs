@@ -44,7 +44,7 @@ namespace senai_gp3_webApi.Controllers
         {
             try
             {
-                int idUsuario = Convert.ToInt32(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
+                //int idUsuario = Convert.ToInt32(HttpContext.User.Claims.First(c => c.Type == JwtRegisteredClaimNames.Jti).Value);
 
                 if (novaDecisao == null)
                 {
@@ -52,7 +52,7 @@ namespace senai_gp3_webApi.Controllers
                 }
                 else
                 {
-                    novaDecisao.IdUsuario = idUsuario;
+                    novaDecisao.IdUsuario = novaDecisao.IdUsuario;
                     _decisaoRepository.CadastrarDecisao(novaDecisao);
                     return StatusCode(201);
                 }

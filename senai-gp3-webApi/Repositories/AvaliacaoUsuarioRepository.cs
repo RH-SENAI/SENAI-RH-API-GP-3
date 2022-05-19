@@ -20,7 +20,7 @@ namespace senai_gp3_webApi.Repositories
         public void CadastrarAvalicaoUsuario(Avaliacaousuario novaAvaliacao)
         {
             ctx.Avaliacaousuarios.Add(novaAvaliacao);
-            
+
             ctx.SaveChanges();
         }
 

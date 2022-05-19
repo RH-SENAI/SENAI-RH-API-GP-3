@@ -54,6 +54,10 @@ namespace senai_gp3_webApi
         /// <returns>Um usuario que foi achado</returns>
         Usuario ListarUsuarioPorId(int idUsuario);
 
+        /// <summary>
+        /// Calcula as medias da IA
+        /// </summary>
+        /// <param name="idUsuario">id Usuario que será analisado</param>
         public void CalcularValoresMediosIA_SatisfacaoGeral(int idUsuario);
 
         /// <summary>

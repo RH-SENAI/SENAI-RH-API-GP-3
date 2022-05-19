@@ -120,9 +120,8 @@ namespace senai_gp3_webApi.Repositories
                 IdCargo = novoUsuario.IdCargo,
                 IdUnidadeSenai = novoUsuario.IdUnidadeSenai,
                 UsuarioAtivo = true,
-                MediaAvaliacao = 0,
-                NotaProdutividade = 0,
-                Vantagens = 0
+                SaldoMoeda = novoUsuario.SaldoMoeda,
+
             };
 
             ctx.Usuarios.Add(usuario);
@@ -131,31 +130,6 @@ namespace senai_gp3_webApi.Repositories
             ctx.SaveChanges();
         }
 
-
-        public void CalcularMediaAvaliacao(int idUsuario)
-        {
-            Usuario usuarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-            List<decimal> avaliacaousuarios = new();
-
-            foreach (var avaliacaoUsuario in ctx.Avaliacaousuarios)
-            {
-                if (avaliacaoUsuario.IdUsuarioAvaliado == idUsuario)
-                {
-                    avaliacaousuarios.Add(avaliacaoUsuario.Avaliacao);
-                }
-            }
-
-            if (avaliacaousuarios.Count == 0)
-            {
-                usuarioAchado.MediaAvaliacao = 0;
-            }
-            else
-            {
-                usuarioAchado.MediaAvaliacao = (avaliacaousuarios.Sum() / avaliacaousuarios.Count);
-            }
-
-            ctx.SaveChanges();
-        }
 
         public void CalcularProdutividade(int idUsuario)
         {
@@ -217,6 +191,7 @@ namespace senai_gp3_webApi.Repositories
                 usuarioAtual.MedDescontosNeg = listaComentariosDescontos.Average(i => i.Negativo);
                 usuarioAtual.MedDescontosNeu = listaComentariosDescontos.Average(i => i.Neutro);
                 usuarioAtual.MedDescontosPos = listaComentariosDescontos.Average(i => i.Positivo);
+
                 if (usuarioAtual.MedDescontosPos == null) usuarioAtual.MedDescontosPos = (decimal)0.5;
 
                 decimal pesoFeedback = (decimal)1.20;
@@ -233,6 +208,32 @@ namespace senai_gp3_webApi.Repositories
             }
                 
         }
+
+        public void CalcularMediaAvaliacao(int idUsuario)
+        {
+            Usuario usuarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
+            List<decimal> avaliacaousuarios = new();
+
+            foreach (var avaliacaoUsuario in ctx.Avaliacaousuarios)
+            {
+                if (avaliacaoUsuario.IdUsuarioAvaliado == idUsuario)
+                {
+                    avaliacaousuarios.Add((decimal)avaliacaoUsuario.AvaliacaoUsuario1);
+                }
+            }
+
+            if (avaliacaousuarios.Count == 0)
+            {
+                usuarioAchado.MediaAvaliacao = 0;
+            }
+            else
+            {
+                usuarioAchado.MediaAvaliacao = (avaliacaousuarios.Sum() / avaliacaousuarios.Count);
+            }
+
+            ctx.SaveChanges();
+        }
+
 
         public void DeletarUsuario(int idUsuario)
         {
@@ -258,8 +259,6 @@ namespace senai_gp3_webApi.Repositories
                     IdCargo = u.IdCargo,
                     IdUnidadeSenai = u.IdUnidadeSenai,
                     SaldoMoeda = u.SaldoMoeda,
-                    Vantagens = u.Vantagens,
-                    MediaAvaliacao = u.MediaAvaliacao,
                     MedFeedbackNeg = u.MedFeedbackNeg,
                     MedFeedbackPos = u.MedFeedbackPos,
                     MedFeedbackNeu = u.MedFeedbackNeu,
@@ -270,7 +269,6 @@ namespace senai_gp3_webApi.Repositories
                     MedDescontosPos = u.MedDescontosPos,
                     MedDescontosNeu = u.MedDescontosNeu,
                     MedSatisfacaoGeral = u.MedSatisfacaoGeral,
-                    NotaProdutividade = u.NotaProdutividade,
                     UsuarioAtivo = u.UsuarioAtivo,
                     IdCargoNavigation = new Cargo()
                     {
@@ -293,8 +291,7 @@ namespace senai_gp3_webApi.Repositories
 
         public Usuario ListarUsuarioPorId(int idUsuario)
         {
-            //CalcularMediaAvaliacao(idUsuario);
-            //CalcularProdutividade(idUsuario);
+            CalcularProdutividade(idUsuario);
             CalcularValoresMediosIA_SatisfacaoGeral(idUsuario);
 
             return ctx.Usuarios.Select(u => new Usuario
@@ -311,8 +308,6 @@ namespace senai_gp3_webApi.Repositories
                 IdCargo = u.IdCargo,
                 IdUnidadeSenai = u.IdUnidadeSenai,
                 SaldoMoeda = u.SaldoMoeda,
-                Vantagens = u.Vantagens,
-                MediaAvaliacao = u.MediaAvaliacao,
                 MedFeedbackNeg = u.MedFeedbackNeg,
                 MedFeedbackPos = u.MedFeedbackPos,
                 MedFeedbackNeu = u.MedFeedbackNeu,
@@ -323,7 +318,6 @@ namespace senai_gp3_webApi.Repositories
                 MedDescontosPos = u.MedDescontosPos,
                 MedDescontosNeu = u.MedDescontosNeu,
                 MedSatisfacaoGeral = u.MedSatisfacaoGeral,
-                NotaProdutividade = u.NotaProdutividade,
                 UsuarioAtivo = u.UsuarioAtivo,
                 IdCargoNavigation = new Cargo()
                 {

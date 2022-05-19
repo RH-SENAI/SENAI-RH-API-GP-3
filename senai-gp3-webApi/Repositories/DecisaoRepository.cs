@@ -43,7 +43,6 @@ namespace senai_gp3_webApi.Repositories
                     DataDecisao = d.DataDecisao,
                     DescricaoDecisao = d.DescricaoDecisao,
                     PrazoDeAvaliacao = d.PrazoDeAvaliacao,
-                    ResultadoDecisao = d.ResultadoDecisao,
                     IdUsuarioNavigation = new()
                     {
                         Nome = d.IdUsuarioNavigation.Nome,
@@ -62,7 +61,6 @@ namespace senai_gp3_webApi.Repositories
                 DataDecisao = d.DataDecisao,
                 DescricaoDecisao = d.DescricaoDecisao,
                 PrazoDeAvaliacao = d.PrazoDeAvaliacao,
-                ResultadoDecisao = d.ResultadoDecisao,
                 IdUsuarioNavigation = new ()
                 { 
                     Nome = d.IdUsuarioNavigation.Nome,
