@@ -23,7 +23,4 @@ namespace senai_gp3_webApi.SentimentAnalisys
             return documentSentiment;
         }
     }
-
-
-
 }

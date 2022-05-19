@@ -111,6 +111,8 @@ namespace senai_gp3_webApi
             services.AddTransient<ICargoRepository, CargoRepository>();
             services.AddTransient<IUnidadesenaiRepository, UnidadesenaiRepository>();
             services.AddTransient<IIdTipoUsuarioRepository, IdTipoUsuarioRepository>();
+            services.AddTransient<IHistoricoRepository, HistoricoRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

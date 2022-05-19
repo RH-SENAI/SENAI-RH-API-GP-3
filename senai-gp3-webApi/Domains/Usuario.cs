@@ -18,9 +18,7 @@ namespace senai_gp3_webApi.Domains
             Decisaos = new HashSet<Decisao>();
             Descontofavoritos = new HashSet<Descontofavorito>();
             Feedbacks = new HashSet<Feedback>();
-            Historicoavalicaos = new HashSet<Historicoavalicao>();
-            Historicoprodutividades = new HashSet<Historicoprodutividade>();
-            Historicosatisfacaos = new HashSet<Historicosatisfacao>();
+            Historicos = new HashSet<Historico>();
             LotacaoIdFuncionarioNavigations = new HashSet<Lotacao>();
             LotacaoIdGestorNavigations = new HashSet<Lotacao>();
             Minhasatividades = new HashSet<Minhasatividade>();
@@ -70,9 +68,7 @@ namespace senai_gp3_webApi.Domains
         public virtual ICollection<Decisao> Decisaos { get; set; }
         public virtual ICollection<Descontofavorito> Descontofavoritos { get; set; }
         public virtual ICollection<Feedback> Feedbacks { get; set; }
-        public virtual ICollection<Historicoavalicao> Historicoavalicaos { get; set; }
-        public virtual ICollection<Historicoprodutividade> Historicoprodutividades { get; set; }
-        public virtual ICollection<Historicosatisfacao> Historicosatisfacaos { get; set; }
+        public virtual ICollection<Historico> Historicos { get; set; }
         public virtual ICollection<Lotacao> LotacaoIdFuncionarioNavigations { get; set; }
         public virtual ICollection<Lotacao> LotacaoIdGestorNavigations { get; set; }
         public virtual ICollection<Minhasatividade> Minhasatividades { get; set; }

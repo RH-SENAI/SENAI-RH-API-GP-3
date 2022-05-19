@@ -8,6 +8,7 @@ using System;
 namespace senai_gp3_webApi.Controllers
 {
     [Route("api/[controller]")]
+    [Produces("application/json")]
     [ApiController]
     public class UnidadesenaisController : ControllerBase
     {

@@ -157,10 +157,15 @@ namespace senai_gp3_webApi.Repositories
                 }
             }
 
-            // Atribui uma nota ao usuário
-            usuario.NotaProdutividade = qtdeAtividadesConcluidas / totalAtividadesUsuario.Count;
-            ctx.SaveChanges();
-
+            if (totalAtividadesUsuario.Count == 0)
+            {
+                usuario.NotaProdutividade = 0;
+            }
+            else
+            {   // Atribui uma nota ao usuário
+                usuario.NotaProdutividade = qtdeAtividadesConcluidas / totalAtividadesUsuario.Count;
+                ctx.SaveChanges();
+            }
         }
 
         public void CalcularValoresMediosIA_SatisfacaoGeral(int idUsuario)
@@ -291,6 +296,13 @@ namespace senai_gp3_webApi.Repositories
 
         public Usuario ListarUsuarioPorId(int idUsuario)
         {
+
+            HistoricoRepository historicoRepository = new(ctx);
+
+
+            historicoRepository.CadastrarRegistro(idUsuario);
+
+            CalcularMediaAvaliacao(idUsuario);
             CalcularProdutividade(idUsuario);
             CalcularValoresMediosIA_SatisfacaoGeral(idUsuario);
 

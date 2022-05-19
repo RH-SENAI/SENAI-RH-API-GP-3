@@ -34,9 +34,7 @@ namespace senai_gp3_webApi.Contexts
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
-        public virtual DbSet<Historicoavalicao> Historicoavalicaos { get; set; }
-        public virtual DbSet<Historicoprodutividade> Historicoprodutividades { get; set; }
-        public virtual DbSet<Historicosatisfacao> Historicosatisfacaos { get; set; }
+        public virtual DbSet<Historico> Historicos { get; set; }
         public virtual DbSet<Localizacao> Localizacaos { get; set; }
         public virtual DbSet<Logradouro> Logradouros { get; set; }
         public virtual DbSet<Lotacao> Lotacaos { get; set; }
@@ -646,58 +644,14 @@ namespace senai_gp3_webApi.Contexts
                     .HasConstraintName("FK__FEEDBACK__idUsua__1FB8AE52");
             });
 
-            modelBuilder.Entity<Historicoavalicao>(entity =>
+            modelBuilder.Entity<Historico>(entity =>
             {
-                entity.HasKey(e => e.IdHistoricoAvaliacao)
-                    .HasName("PK__HISTORIC__F685CC2BC99BD010");
-
-                entity.ToTable("HISTORICOAVALICAO");
-
-                entity.Property(e => e.IdHistoricoAvaliacao).HasColumnName("idHistoricoAvaliacao");
-
-                entity.Property(e => e.AtualizadoEm)
-                    .HasColumnType("datetime")
-                    .HasColumnName("atualizadoEm");
-
-                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
-
-                entity.HasOne(d => d.IdUsuarioNavigation)
-                    .WithMany(p => p.Historicoavalicaos)
-                    .HasForeignKey(d => d.IdUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HISTORICO__idUsu__48BAC3E5");
-            });
-
-            modelBuilder.Entity<Historicoprodutividade>(entity =>
-            {
-                entity.HasKey(e => e.IdHistoricoProdutividade)
-                    .HasName("PK__HISTORIC__6DD002E170C435AC");
-
-                entity.ToTable("HISTORICOPRODUTIVIDADE");
-
-                entity.Property(e => e.IdHistoricoProdutividade).HasColumnName("idHistoricoProdutividade");
-
-                entity.Property(e => e.AtualizadoEm)
-                    .HasColumnType("datetime")
-                    .HasColumnName("atualizadoEm");
-
-                entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
-
-                entity.HasOne(d => d.IdUsuarioNavigation)
-                    .WithMany(p => p.Historicoprodutividades)
-                    .HasForeignKey(d => d.IdUsuario)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__HISTORICO__idUsu__4B973090");
-            });
-
-            modelBuilder.Entity<Historicosatisfacao>(entity =>
-            {
-                entity.HasKey(e => e.IdHistoricoSatisfacao)
+                entity.HasKey(e => e.IdHistorico)
                     .HasName("PK__HISTORIC__6DD36FCFA9A9EBD7");
 
-                entity.ToTable("HISTORICOSATISFACAO");
+                entity.ToTable("HISTORICO");
 
-                entity.Property(e => e.IdHistoricoSatisfacao).HasColumnName("idHistoricoSatisfacao");
+                entity.Property(e => e.IdHistorico).HasColumnName("idHistorico");
 
                 entity.Property(e => e.AtualizadoEm)
                     .HasColumnType("datetime")
@@ -705,8 +659,30 @@ namespace senai_gp3_webApi.Contexts
 
                 entity.Property(e => e.IdUsuario).HasColumnName("idUsuario");
 
+                entity.Property(e => e.MediaAvaliacao)
+                    .HasColumnType("decimal(3, 2)")
+                    .HasColumnName("mediaAvaliacao");
+
+                entity.Property(e => e.NivelSatisfacao)
+                    .HasColumnType("decimal(3, 2)")
+                    .HasColumnName("nivelSatisfacao");
+
+                entity.Property(e => e.NotaProdutividade)
+                    .HasColumnType("decimal(3, 2)")
+                    .HasColumnName("notaProdutividade");
+
+                entity.Property(e => e.QtdDeTotalAtividade).HasColumnName("qtdDeTotalAtividade");
+
+                entity.Property(e => e.QtdDeTotalCursos).HasColumnName("qtdDeTotalCursos");
+
+                entity.Property(e => e.QtdDeTotalDescontos).HasColumnName("qtdDeTotalDescontos");
+
+                entity.Property(e => e.SaldoMoeda).HasColumnName("saldoMoeda");
+
+                entity.Property(e => e.Trofeus).HasColumnName("trofeus");
+
                 entity.HasOne(d => d.IdUsuarioNavigation)
-                    .WithMany(p => p.Historicosatisfacaos)
+                    .WithMany(p => p.Historicos)
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__HISTORICO__idUsu__45DE573A");
