@@ -236,6 +236,7 @@ namespace senai_gp3_webApi.Repositories
                 usuarioAchado.MediaAvaliacao = (avaliacaousuarios.Sum() / avaliacaousuarios.Count);
             }
 
+            ctx.Usuarios.Update(usuarioAchado);
             ctx.SaveChanges();
         }
 
@@ -299,9 +300,7 @@ namespace senai_gp3_webApi.Repositories
 
             HistoricoRepository historicoRepository = new(ctx);
 
-
             historicoRepository.CadastrarRegistro(idUsuario);
-
             CalcularMediaAvaliacao(idUsuario);
             CalcularProdutividade(idUsuario);
             CalcularValoresMediosIA_SatisfacaoGeral(idUsuario);

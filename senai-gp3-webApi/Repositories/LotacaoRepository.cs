@@ -24,7 +24,8 @@ namespace senai_gp3_webApi.Repositories
             Lotacao lotacao = new()
             {  
                 IdFuncionario = funcionarioAchado.IdUsuario,
-                IdGestor = gestorAchado.IdUsuario,            
+                IdGestor = gestorAchado.IdUsuario,
+                
             };
 
             ctx.Lotacaos.Add(lotacao);

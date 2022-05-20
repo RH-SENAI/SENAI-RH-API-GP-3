@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace senai_gp3_webApi.Repositories
 {
+
     public class HistoricoRepository : IHistoricoRepository
     {
         private readonly senaiRhContext ctx;
@@ -28,36 +29,41 @@ namespace senai_gp3_webApi.Repositories
 
             List<Historico> registrosUsuario = ListarRegistrosPorUsuario(usuarioAchado.IdUsuario);
 
-            foreach (var registro in registrosUsuario)
+            DateTime dataAtual = DateTime.Now;
+
+            if (registrosUsuario != null)
             {
-                DateTime dataAtual = DateTime.Now;
-
-                if ( registro.AtualizadoEm.Day == dataAtual.Day && registro.AtualizadoEm.Month == dataAtual.Month && registro.AtualizadoEm.Year == dataAtual.Year)
-                { 
-                    AtualizarRegistro(registro);
-
-                } else
+                foreach (var registro in registrosUsuario)
                 {
-                    Historico novoRegistro = new()
+
+                    if (registro.AtualizadoEm.Day == 21 && registro.AtualizadoEm.Month == dataAtual.Month && registro.AtualizadoEm.Year == dataAtual.Year)
                     {
-                        IdUsuario = usuarioAchado.IdUsuario,
-                        MediaAvaliacao = usuarioAchado.MediaAvaliacao,
-                        NivelSatisfacao = usuarioAchado.MedSatisfacaoGeral,
-                        SaldoMoeda = usuarioAchado.SaldoMoeda,
-                        Trofeus = usuarioAchado.Trofeus,
-                        NotaProdutividade = usuarioAchado.NotaProdutividade,
-                        AtualizadoEm = DateTime.Now,
-                        QtdDeTotalAtividade = CalcularQtdAtividades(usuarioAchado.IdUsuario),
-                        QtdDeTotalCursos = CalcularQtdCursos(usuarioAchado.IdUsuario),
-                        QtdDeTotalDescontos = CalcularQtdDescontos(usuarioAchado.IdUsuario)
+                        RefreshRegistro(usuarioAchado.IdUsuario, registro.IdHistorico);
 
-                    };
+                        return;
+                    }
 
-                    ctx.Historicos.Add(novoRegistro);
-                    ctx.SaveChanges();
                 }
 
-            }
+                Historico novoRegistro = new()
+                {
+                    IdUsuario = usuarioAchado.IdUsuario,
+                    MediaAvaliacao = usuarioAchado.MediaAvaliacao,
+                    NivelSatisfacao = usuarioAchado.MedSatisfacaoGeral,
+                    SaldoMoeda = usuarioAchado.SaldoMoeda,
+                    Trofeus = usuarioAchado.Trofeus,
+                    NotaProdutividade = usuarioAchado.NotaProdutividade,
+                    AtualizadoEm = DateTime.Now,
+                    QtdDeTotalAtividade = CalcularQtdAtividades(usuarioAchado.IdUsuario),
+                    QtdDeTotalCursos = CalcularQtdCursos(usuarioAchado.IdUsuario),
+                    QtdDeTotalDescontos = CalcularQtdDescontos(usuarioAchado.IdUsuario)
+
+                };
+
+                ctx.Historicos.Add(novoRegistro);
+                ctx.SaveChanges();
+
+            } 
         }
 
         /// <summary>
@@ -89,13 +95,12 @@ namespace senai_gp3_webApi.Repositories
             return qtdCursosObtidosTotal;
         }
 
-        public void AtualizarRegistro(Historico historicoAtualizado)
+        public void AtualizarRegistro(Historico historicoAtualizado, int IdHistorico)
         {
-            Historico historicoAchado = ctx.Historicos.FirstOrDefault(h => h.IdHistorico == historicoAtualizado.IdHistorico);
+            Historico historicoAchado = ctx.Historicos.FirstOrDefault(h => h.IdHistorico == IdHistorico);
 
-            if(historicoAtualizado != null)
+            if (historicoAtualizado != null)
             {
-                historicoAchado.IdHistorico = historicoAtualizado.IdHistorico;
                 historicoAchado.AtualizadoEm = historicoAtualizado.AtualizadoEm;
                 historicoAchado.MediaAvaliacao = historicoAtualizado.MediaAvaliacao;
                 historicoAchado.NotaProdutividade = historicoAtualizado.NotaProdutividade;
@@ -110,6 +115,35 @@ namespace senai_gp3_webApi.Repositories
                 ctx.Historicos.Update(historicoAchado);
                 ctx.SaveChanges();
             }
+        }
+
+
+        public void RefreshRegistro(int idUsuario, int idRegistro)
+        {
+            UsuarioRepository metodos = new(ctx);
+
+            Usuario usuarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
+
+            metodos.CalcularValoresMediosIA_SatisfacaoGeral(idUsuario);
+            metodos.CalcularProdutividade(idUsuario);
+            metodos.CalcularMediaAvaliacao(idUsuario);
+
+            Historico novoRegistro = new()
+            {
+                IdUsuario = usuarioAchado.IdUsuario,
+                MediaAvaliacao = usuarioAchado.MediaAvaliacao,
+                NivelSatisfacao = usuarioAchado.MedSatisfacaoGeral,
+                SaldoMoeda = usuarioAchado.SaldoMoeda,
+                Trofeus = usuarioAchado.Trofeus,
+                NotaProdutividade = usuarioAchado.NotaProdutividade,
+                AtualizadoEm = DateTime.Now,
+                QtdDeTotalAtividade = CalcularQtdAtividades(usuarioAchado.IdUsuario),
+                QtdDeTotalCursos = CalcularQtdCursos(usuarioAchado.IdUsuario),
+                QtdDeTotalDescontos = CalcularQtdDescontos(usuarioAchado.IdUsuario)
+
+            };
+
+            AtualizarRegistro(novoRegistro, idRegistro);
         }
 
         /// <summary>
