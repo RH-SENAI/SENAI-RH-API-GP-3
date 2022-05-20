@@ -276,6 +276,8 @@ namespace senai_gp3_webApi.Repositories
                     MedDescontosNeu = u.MedDescontosNeu,
                     MedSatisfacaoGeral = u.MedSatisfacaoGeral,
                     UsuarioAtivo = u.UsuarioAtivo,
+                    MediaAvaliacao = u.MediaAvaliacao,
+                    NotaProdutividade = u.NotaProdutividade,
                     IdCargoNavigation = new Cargo()
                     {
                         IdCargo = u.IdCargoNavigation.IdCargo,
@@ -330,6 +332,8 @@ namespace senai_gp3_webApi.Repositories
                 MedDescontosNeu = u.MedDescontosNeu,
                 MedSatisfacaoGeral = u.MedSatisfacaoGeral,
                 UsuarioAtivo = u.UsuarioAtivo,
+                MediaAvaliacao = u.MediaAvaliacao,
+                NotaProdutividade = u.NotaProdutividade,
                 IdCargoNavigation = new Cargo()
                 {
                     IdCargo = u.IdCargoNavigation.IdCargo,
