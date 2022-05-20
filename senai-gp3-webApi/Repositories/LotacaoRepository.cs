@@ -16,16 +16,15 @@ namespace senai_gp3_webApi.Repositories
             ctx = appContext;
         }
 
-        public void AssociarUsuario(int idFuncionario, int idGestor)
+        public void AssociarUsuario(int idFuncionario, int idGrupo)
         {
             Usuario funcionarioAchado = ctx.Usuarios.FirstOrDefault( f => f.IdUsuario == idFuncionario );
-            Usuario gestorAchado = ctx.Usuarios.FirstOrDefault(g => g.IdUsuario == idGestor);
+            Grupo grupoAchado = ctx.Grupos.FirstOrDefault(g => g.IdGrupo == idGrupo);
 
             Lotacao lotacao = new()
             {  
                 IdFuncionario = funcionarioAchado.IdUsuario,
-                IdGestor = gestorAchado.IdUsuario,
-                
+                IdGrupo = grupoAchado.IdGrupo
             };
 
             ctx.Lotacaos.Add(lotacao);
@@ -33,7 +32,7 @@ namespace senai_gp3_webApi.Repositories
 
         public List<Lotacao> ListarAssociacoes()
         {
-            throw new System.NotImplementedException();
+            return ctx.Lotacaos.ToList();
         }
     }
 }

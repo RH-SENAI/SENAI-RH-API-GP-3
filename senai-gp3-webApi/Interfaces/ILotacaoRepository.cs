@@ -9,8 +9,8 @@ namespace senai_gp3_webApi.Interfaces
         /// Associa um Usuario ao seu gestor
         /// </summary>
         /// <param name="idFuncionario">id do funcionario que será associado</param>
-        /// <param name="idGestor"> id do gestor a quem esse funcionário será associado</param>
-        void AssociarUsuario(int idFuncionario, int idGestor);
+        /// <param name="idGrupo"> id do Grupo a quem esse funcionário será associado</param>
+        void AssociarUsuario(int idFuncionario, int idGrupo);
 
         /// <summary>
         /// Lista todas as associações de todos os usuários

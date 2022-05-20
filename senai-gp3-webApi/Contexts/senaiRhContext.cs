@@ -795,26 +795,28 @@ namespace senai_gp3_webApi.Contexts
 
             modelBuilder.Entity<Lotacao>(entity =>
             {
-                entity.HasKey(e => e.IdLotacao)
-                    .HasName("PK__lotacao__259B3A9C8C5324F7");
+                entity.HasKey(e => e.IdLotacçao)
+                    .HasName("PK__LOTACAO__9DB7395EB93631BA");
 
                 entity.ToTable("LOTACAO");
 
-                entity.Property(e => e.IdLotacao).HasColumnName("idLotacao");
+                entity.Property(e => e.IdLotacçao).HasColumnName("idLotacçao");
 
                 entity.Property(e => e.IdFuncionario).HasColumnName("idFuncionario");
 
-                entity.Property(e => e.IdGestor).HasColumnName("idGestor");
+                entity.Property(e => e.IdGrupo).HasColumnName("idGrupo");
 
                 entity.HasOne(d => d.IdFuncionarioNavigation)
-                    .WithMany(p => p.LotacaoIdFuncionarioNavigations)
+                    .WithMany(p => p.Lotacaos)
                     .HasForeignKey(d => d.IdFuncionario)
-                    .HasConstraintName("FK__lotacao__idFunci__53385258");
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__LOTACAO__idFunci__5EAA0504");
 
-                entity.HasOne(d => d.IdGestorNavigation)
-                    .WithMany(p => p.LotacaoIdGestorNavigations)
-                    .HasForeignKey(d => d.IdGestor)
-                    .HasConstraintName("FK__lotacao__idGesto__52442E1F");
+                entity.HasOne(d => d.IdGrupoNavigation)
+                    .WithMany(p => p.Lotacaos)
+                    .HasForeignKey(d => d.IdGrupo)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__LOTACAO__idGrupo__5F9E293D");
             });
 
             modelBuilder.Entity<Minhasatividade>(entity =>
