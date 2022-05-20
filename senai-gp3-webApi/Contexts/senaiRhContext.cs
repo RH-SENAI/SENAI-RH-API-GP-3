@@ -37,7 +37,7 @@ namespace senai_gp3_webApi.Contexts
         public virtual DbSet<Historico> Historicos { get; set; }
         public virtual DbSet<Localizacao> Localizacaos { get; set; }
         public virtual DbSet<Logradouro> Logradouros { get; set; }
-        public virtual DbSet<Lotacao> Lotacaos { get; set; }
+        public virtual DbSet<LotacaoRepository> Lotacaos { get; set; }
         public virtual DbSet<Minhasatividade> Minhasatividades { get; set; }
         public virtual DbSet<Registrocurso> Registrocursos { get; set; }
         public virtual DbSet<Registrodesconto> Registrodescontos { get; set; }
@@ -51,7 +51,7 @@ namespace senai_gp3_webApi.Contexts
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("name=AzureDBConnetionString");
+                optionsBuilder.UseSqlServer("AzureDBConnetionString");
             }
         }
 
@@ -129,7 +129,7 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.IdAvaliacaoUsuario).HasColumnName("idAvaliacaoUsuario");
 
                 entity.Property(e => e.AvaliacaoUsuario1)
-                    .HasColumnType("decimal(2, 1)")
+                    .HasColumnType("decimal(3, 2)")
                     .HasColumnName("avaliacaoUsuario");
 
                 entity.Property(e => e.IdUsuarioAvaliado).HasColumnName("idUsuarioAvaliado");
@@ -763,7 +763,7 @@ namespace senai_gp3_webApi.Contexts
                     .HasColumnName("nomeLogradouro");
             });
 
-            modelBuilder.Entity<Lotacao>(entity =>
+            modelBuilder.Entity<LotacaoRepository>(entity =>
             {
                 entity.HasKey(e => e.IdLotacao)
                     .HasName("PK__lotacao__259B3A9C8C5324F7");
@@ -1120,10 +1120,6 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.MediaAvaliacao)
                     .HasColumnType("decimal(3, 2)")
                     .HasColumnName("mediaAvaliacao");
-
-                entity.Property(e => e.NivelSatisfacao)
-                    .HasColumnType("decimal(2, 1)")
-                    .HasColumnName("nivelSatisfacao");
 
                 entity.Property(e => e.Nome)
                     .IsRequired()

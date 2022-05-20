@@ -38,7 +38,6 @@ namespace senai_gp3_webApi.Domains
         public string Email { get; set; }
         public string Senha { get; set; }
         public DateTime DataNascimento { get; set; }
-        public decimal NivelSatisfacao { get; set; }
         public int SaldoMoeda { get; set; }
         public int Trofeus { get; set; }
         public string CaminhoFotoPerfil { get; set; }
