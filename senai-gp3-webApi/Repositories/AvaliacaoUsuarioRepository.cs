@@ -20,7 +20,7 @@ namespace senai_gp3_webApi.Repositories
         public void CadastrarAvalicaoUsuario(Avaliacaousuario novaAvaliacao)
         {
 
-            novaAvaliacao.AvaliacaoUsuario1 /= 100;
+            novaAvaliacao.AvaliacaoUsuario1 /= 10;
 
             ctx.Avaliacaousuarios.Add(novaAvaliacao);
 
