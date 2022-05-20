@@ -36,7 +36,7 @@ namespace senai_gp3_webApi.Repositories
                 foreach (var registro in registrosUsuario)
                 {
 
-                    if (registro.AtualizadoEm.Day == 21 && registro.AtualizadoEm.Month == dataAtual.Month && registro.AtualizadoEm.Year == dataAtual.Year)
+                    if (registro.AtualizadoEm.Day == dataAtual.Day && registro.AtualizadoEm.Month == dataAtual.Month && registro.AtualizadoEm.Year == dataAtual.Year)
                     {
                         RefreshRegistro(usuarioAchado.IdUsuario, registro.IdHistorico);
 
