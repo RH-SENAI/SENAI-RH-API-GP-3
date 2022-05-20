@@ -48,6 +48,12 @@ namespace senai_gp3_webApi
         List<Usuario> ListarUsuario();
 
         /// <summary>
+        /// Lista os usuarios em ranking
+        /// </summary>
+        /// <returns>Uma lista de usuarios</returns>
+        List<Usuario> RankingUsuarios();
+
+        /// <summary>
         /// Retorna um usuario
         /// </summary>
         /// <param name="idUsuario">id do Usuario</param>

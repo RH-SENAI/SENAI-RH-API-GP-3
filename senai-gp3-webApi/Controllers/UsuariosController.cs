@@ -194,6 +194,20 @@ namespace senai_gp3_webApi.Controllers
                 return BadRequest(execp);
             }
         }
+        [HttpGet("RankingUsuarios")]
+        public IActionResult Ranking()
+        {
+            try
+            {
+                return Ok(_usuarioRepository.RankingUsuarios());
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+                throw;
+            }
+        }
 
     }
 }

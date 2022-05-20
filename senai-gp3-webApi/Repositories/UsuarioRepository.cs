@@ -448,5 +448,30 @@ namespace senai_gp3_webApi.Repositories
                 return true;
             }
         }
+        public List<Usuario> RankingUsuarios()
+        {
+            return ctx.Usuarios
+                //IdTipoUsuario seja igual ao de funcionario
+                .Where(u => u.IdTipoUsuario == 3)
+                .OrderByDescending(u => u.MediaAvaliacao)
+                //Seleciona os dados que serao enviados na resposta
+                .Select(u => new Usuario()
+                {
+                    IdUsuario = u.IdUsuario,
+                    MediaAvaliacao = u.MediaAvaliacao,
+                    Nome = u.Nome,
+                    Email = u.Email,
+                    DataNascimento = u.DataNascimento,
+                    SaldoMoeda = u.SaldoMoeda,
+                    Trofeus = u.Trofeus,
+                    IdUnidadeSenai = u.IdUnidadeSenai,
+                    IdUnidadeSenaiNavigation = new Unidadesenai()
+                    {
+                        NomeUnidadeSenai = u.IdUnidadeSenaiNavigation.NomeUnidadeSenai,
+                        TelefoneUnidadeSenai = u.IdUnidadeSenaiNavigation.TelefoneUnidadeSenai,
+                        EmailUnidadeSenai = u.IdUnidadeSenaiNavigation.EmailUnidadeSenai
+                    }
+                }).ToList();
+        }
     }
 }
