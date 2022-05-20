@@ -34,10 +34,11 @@ namespace senai_gp3_webApi.Contexts
         public virtual DbSet<Empresa> Empresas { get; set; }
         public virtual DbSet<Estado> Estados { get; set; }
         public virtual DbSet<Feedback> Feedbacks { get; set; }
+        public virtual DbSet<Grupo> Grupos { get; set; }
         public virtual DbSet<Historico> Historicos { get; set; }
         public virtual DbSet<Localizacao> Localizacaos { get; set; }
         public virtual DbSet<Logradouro> Logradouros { get; set; }
-        public virtual DbSet<LotacaoRepository> Lotacaos { get; set; }
+        public virtual DbSet<Lotacao> Lotacaos { get; set; }
         public virtual DbSet<Minhasatividade> Minhasatividades { get; set; }
         public virtual DbSet<Registrocurso> Registrocursos { get; set; }
         public virtual DbSet<Registrodesconto> Registrodescontos { get; set; }
@@ -644,6 +645,35 @@ namespace senai_gp3_webApi.Contexts
                     .HasConstraintName("FK__FEEDBACK__idUsua__1FB8AE52");
             });
 
+            modelBuilder.Entity<Grupo>(entity =>
+            {
+                entity.HasKey(e => e.IdGrupo)
+                    .HasName("PK__GRUPO__EC597A871AA53BB6");
+
+                entity.ToTable("GRUPO");
+
+                entity.HasIndex(e => e.NomeGrupo, "UQ__GRUPO__58B640D31685BC54")
+                    .IsUnique();
+
+                entity.Property(e => e.IdGrupo)
+                    .ValueGeneratedOnAdd()
+                    .HasColumnName("idGrupo");
+
+                entity.Property(e => e.IdGestor).HasColumnName("idGestor");
+
+                entity.Property(e => e.NomeGrupo)
+                    .IsRequired()
+                    .HasMaxLength(256)
+                    .IsUnicode(false)
+                    .HasColumnName("nomeGrupo");
+
+                entity.HasOne(d => d.IdGestorNavigation)
+                    .WithMany(p => p.Grupos)
+                    .HasForeignKey(d => d.IdGestor)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__GRUPO__idGestor__5AD97420");
+            });
+
             modelBuilder.Entity<Historico>(entity =>
             {
                 entity.HasKey(e => e.IdHistorico)
@@ -763,7 +793,7 @@ namespace senai_gp3_webApi.Contexts
                     .HasColumnName("nomeLogradouro");
             });
 
-            modelBuilder.Entity<LotacaoRepository>(entity =>
+            modelBuilder.Entity<Lotacao>(entity =>
             {
                 entity.HasKey(e => e.IdLotacao)
                     .HasName("PK__lotacao__259B3A9C8C5324F7");
@@ -775,11 +805,6 @@ namespace senai_gp3_webApi.Contexts
                 entity.Property(e => e.IdFuncionario).HasColumnName("idFuncionario");
 
                 entity.Property(e => e.IdGestor).HasColumnName("idGestor");
-
-                entity.Property(e => e.TituloLotacao)
-                    .HasMaxLength(200)
-                    .IsUnicode(false)
-                    .HasColumnName("tituloLotacao");
 
                 entity.HasOne(d => d.IdFuncionarioNavigation)
                     .WithMany(p => p.LotacaoIdFuncionarioNavigations)
