@@ -29,6 +29,7 @@ namespace senai_gp3_webApi.Repositories
             };
 
             ctx.Lotacaos.Add(lotacao);
+            ctx.SaveChanges();
         }
 
         public List<Lotacao> ListarAssociacoes()

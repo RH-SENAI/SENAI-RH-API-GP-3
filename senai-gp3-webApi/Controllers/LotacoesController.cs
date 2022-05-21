@@ -35,7 +35,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
-        [HttpPost("Cadastrar/{idFuncionario}/{idGrupo}")]
+        [HttpPost("Cadastrar")]
         public IActionResult CadastraLotacao(LotacaoViewModel novaLotacao)
         {
             try
