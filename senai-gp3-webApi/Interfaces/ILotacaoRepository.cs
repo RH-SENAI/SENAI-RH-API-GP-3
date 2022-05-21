@@ -1,16 +1,17 @@
 ﻿using senai_gp3_webApi.Domains;
+using senai_gp3_webApi.ViewModels;
 using System.Collections.Generic;
 
 namespace senai_gp3_webApi.Interfaces
 {
     public interface ILotacaoRepository
     {
+
         /// <summary>
-        /// Associa um Usuario ao seu gestor
+        /// Associa um funcionario ao seu gestor
         /// </summary>
-        /// <param name="idFuncionario">id do funcionario que será associado</param>
-        /// <param name="idGrupo"> id do Grupo a quem esse funcionário será associado</param>
-        void AssociarUsuario(int idFuncionario, int idGrupo);
+        /// <param name="novaLotacao"> nova lotação que será cadastrada</param>
+        void AssociarUsuario(LotacaoViewModel novaLotacao);
 
         /// <summary>
         /// Lista todas as associações de todos os usuários

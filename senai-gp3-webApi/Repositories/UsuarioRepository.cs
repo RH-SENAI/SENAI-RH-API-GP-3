@@ -124,12 +124,10 @@ namespace senai_gp3_webApi.Repositories
 
             };
 
+
             ctx.Usuarios.Add(usuario);
-
-
             ctx.SaveChanges();
         }
-
 
         public void CalcularProdutividade(int idUsuario)
         {

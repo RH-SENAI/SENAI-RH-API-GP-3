@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Interfaces;
+using senai_gp3_webApi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,14 +36,14 @@ namespace senai_gp3_webApi.Controllers
         }
 
         [HttpPost("Cadastrar/{idFuncionario}/{idGrupo}")]
-        public IActionResult CadastraLotacao(int idFuncionario, int idGrupo)
+        public IActionResult CadastraLotacao(LotacaoViewModel novaLotacao)
         {
             try
             {
 
-                if (idGrupo != 0 && idFuncionario != 0)
+                if (novaLotacao != null)
                 {
-                    _lotacaoRepository.AssociarUsuario(idFuncionario, idGrupo);
+                    _lotacaoRepository.AssociarUsuario(novaLotacao);
                     return StatusCode(201);
                 }
 

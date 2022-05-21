@@ -1,6 +1,7 @@
 ﻿using senai_gp3_webApi.Contexts;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Interfaces;
+using senai_gp3_webApi.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -16,10 +17,10 @@ namespace senai_gp3_webApi.Repositories
             ctx = appContext;
         }
 
-        public void AssociarUsuario(int idFuncionario, int idGrupo)
+        public void AssociarUsuario(LotacaoViewModel novaLotacao)
         {
-            Usuario funcionarioAchado = ctx.Usuarios.FirstOrDefault( f => f.IdUsuario == idFuncionario );
-            Grupo grupoAchado = ctx.Grupos.FirstOrDefault(g => g.IdGrupo == idGrupo);
+            Usuario funcionarioAchado = ctx.Usuarios.FirstOrDefault( f => f.Cpf == novaLotacao.Cpf );
+            Grupo grupoAchado = ctx.Grupos.FirstOrDefault( g => g.IdGrupo == novaLotacao.IdGrupo );
 
             Lotacao lotacao = new()
             {  
