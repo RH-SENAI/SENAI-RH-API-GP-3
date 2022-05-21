@@ -34,7 +34,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
-        [HttpPost("Cadastrar")]
+        [HttpPost("Cadastrar/{idFuncionario}/{idGrupo}")]
         public IActionResult CadastraLotacao(int idFuncionario, int idGrupo)
         {
             try

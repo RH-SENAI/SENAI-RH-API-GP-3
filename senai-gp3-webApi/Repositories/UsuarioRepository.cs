@@ -430,11 +430,12 @@ namespace senai_gp3_webApi.Repositories
         public List<Usuario> RankingUsuarios()
         {
             return ctx.Usuarios
-                //IdTipoUsuario seja igual ao de funcionario
-                .Where(u => u.IdTipoUsuario == 3)
-                .OrderByDescending(u => u.MedSatisfacaoGeral)
-                //Seleciona os dados que serao enviados na resposta
-                .Select(u => new Usuario()
+                
+                .Where(u => u.IdTipoUsuario == 3)  //IdTipoUsuario seja igual ao de funcionario
+
+                .OrderByDescending(u => u.MedSatisfacaoGeral) 
+
+                .Select(u => new Usuario() //Seleciona os dados que serao enviados na resposta
                 {
                     IdUsuario = u.IdUsuario,
                     MediaAvaliacao = u.MediaAvaliacao,
