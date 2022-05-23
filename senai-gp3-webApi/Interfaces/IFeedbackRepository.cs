@@ -61,5 +61,7 @@ namespace senai_gp3_webApi.Interfaces
         /// <returns> a media dos feedbacks</returns>
         decimal CalcularMediaFb(List<Feedback> todosFeedbacks);
 
+        List<Feedback> ListarFeedBacksPorUsuario(int idUsuario);
+
     }
 }

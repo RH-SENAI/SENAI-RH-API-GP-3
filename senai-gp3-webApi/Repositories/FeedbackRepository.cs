@@ -87,6 +87,35 @@ namespace senai_gp3_webApi.Repositories
             throw new NotImplementedException();
         }
 
+        public List<Feedback> ListarFeedBacksPorUsuario(int idUsuario)
+        {
+            return ctx.Feedbacks
+                .Select(f => new Feedback()
+                {
+                    IdFeedBack = f.IdFeedBack,
+                    IdDecisao = f.IdDecisao,
+                    IdUsuario = f.IdUsuario,
+                    Negativo = f.Negativo,
+                    Neutro = f.Neutro,
+                    Positivo = f.Positivo,
+                    ComentarioFeedBack = f.ComentarioFeedBack,
+                    DataPublicacao = f.DataPublicacao,
+                    ValorMoedas = f.ValorMoedas,
+                    IdDecisaoNavigation = new Decisao()
+                    {
+                        DescricaoDecisao = f.IdDecisaoNavigation.DescricaoDecisao
+                    },
+                    IdUsuarioNavigation = new Usuario()
+                    {
+                        Nome = f.IdUsuarioNavigation.Nome,
+                        CaminhoFotoPerfil = f.IdUsuarioNavigation.CaminhoFotoPerfil
+                    }
+                }
+                )
+                .Where(f => f.IdUsuario == idUsuario)
+                .ToList();
+        }
+
         public Feedback VerificarFeedback(Feedback feedback)
         {
             throw new NotImplementedException();

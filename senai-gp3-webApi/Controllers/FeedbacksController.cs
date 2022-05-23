@@ -59,5 +59,25 @@ namespace senai_gp3_webApi.Controllers
                 return BadRequest(execp);
             }
         }
+
+        [HttpGet("Listar/Usuario/{idUsuario}")]
+
+        public IActionResult ListarFeedBacksPorUsuario(int idUsuario)
+        {
+            try
+            {
+                if (idUsuario == 0)
+                {
+                    return BadRequest("Id do gestor não pode ser igual a 0 !");
+                }
+
+                return Ok(_feedBacksRepostory.ListarFeedBacksPorUsuario(idUsuario));
+            }
+            catch (Exception exep)
+            {
+                return BadRequest(exep);
+
+            }
+        }
     }
 }
