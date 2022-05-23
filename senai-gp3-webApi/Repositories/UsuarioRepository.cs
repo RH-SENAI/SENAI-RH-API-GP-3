@@ -184,7 +184,7 @@ namespace senai_gp3_webApi.Repositories
                 usuarioAtual.MedFeedbackNeu = listaFeedbacks.Average(i => i.Neutro);
                 usuarioAtual.MedFeedbackPos = listaFeedbacks.Average(i => i.Positivo);
                 if (usuarioAtual.MedFeedbackPos == null) usuarioAtual.MedFeedbackPos = (decimal)0.5;
-                
+
 
                 usuarioAtual.MedCursosNeg = listaComentariosCursos.Average(i => i.Negativo);
                 usuarioAtual.MedCursosNeu = listaComentariosCursos.Average(i => i.Neutro);
@@ -201,7 +201,7 @@ namespace senai_gp3_webApi.Repositories
                 decimal pesoCurso = (decimal)1.00;
                 decimal pesoDesconto = (decimal)1.00;
 
-                usuarioAtual.MedSatisfacaoGeral = ((usuarioAtual.MedFeedbackPos * pesoFeedback) + (usuarioAtual.MedCursosPos * pesoCurso) + (usuarioAtual.MedDescontosPos * pesoDesconto)) / 
+                usuarioAtual.MedSatisfacaoGeral = ((usuarioAtual.MedFeedbackPos * pesoFeedback) + (usuarioAtual.MedCursosPos * pesoCurso) + (usuarioAtual.MedDescontosPos * pesoDesconto)) /
                     (pesoFeedback + pesoCurso + pesoDesconto);
 
                 ctx.Usuarios.Update(usuarioAtual);
@@ -209,7 +209,7 @@ namespace senai_gp3_webApi.Repositories
 
                 Console.WriteLine("Valores medios calculados com sucesso.");
             }
-                
+
         }
 
         public void CalcularMediaAvaliacao(int idUsuario)
@@ -428,10 +428,10 @@ namespace senai_gp3_webApi.Repositories
         public List<Usuario> RankingUsuarios()
         {
             return ctx.Usuarios
-                
+
                 .Where(u => u.IdTipoUsuario == 3)  //IdTipoUsuario seja igual ao de funcionario
 
-                .OrderByDescending(u => u.MedSatisfacaoGeral) 
+                .OrderByDescending(u => u.MedSatisfacaoGeral)
 
                 .Select(u => new Usuario() //Seleciona os dados que serao enviados na resposta
                 {
@@ -452,6 +452,60 @@ namespace senai_gp3_webApi.Repositories
                         EmailUnidadeSenai = u.IdUnidadeSenaiNavigation.EmailUnidadeSenai
                     }
                 }).ToList();
+        }
+
+        public List<Usuario> ListarFuncionariosLot(int idGestor)
+        {
+            var listaFuncionariosLot = from usuario in ctx.Usuarios
+                                       join lotacaos in ctx.Lotacaos on usuario.IdUsuario equals lotacaos.IdFuncionario
+                                       join grupos in ctx.Grupos on lotacaos.IdGrupo equals grupos.IdGrupo
+                                       where grupos.IdGestor == idGestor
+                                       select new Usuario
+                                       {
+                                           IdUsuario = usuario.IdUsuario,
+                                           Nome = usuario.Nome,
+                                           Email = usuario.Email,
+                                           Senha = usuario.Senha,
+                                           Cpf = usuario.Cpf,
+                                           CaminhoFotoPerfil = usuario.CaminhoFotoPerfil,
+                                           DataNascimento = usuario.DataNascimento,
+                                           IdTipoUsuario = usuario.IdTipoUsuario,
+                                           Trofeus = usuario.Trofeus,
+                                           IdCargo = usuario.IdCargo,
+                                           IdUnidadeSenai = usuario.IdUnidadeSenai,
+                                           SaldoMoeda = usuario.SaldoMoeda,
+                                           MedFeedbackNeg = usuario.MedFeedbackNeg,
+                                           MedFeedbackPos = usuario.MedFeedbackPos,
+                                           MedFeedbackNeu = usuario.MedFeedbackNeu,
+                                           MedCursosNeg = usuario.MedCursosNeg,
+                                           MedCursosPos = usuario.MedCursosPos,
+                                           MedCursosNeu = usuario.MedCursosNeu,
+                                           MedDescontosNeg = usuario.MedDescontosNeg,
+                                           MedDescontosPos = usuario.MedDescontosPos,
+                                           MedDescontosNeu = usuario.MedDescontosNeu,
+                                           MedSatisfacaoGeral = usuario.MedSatisfacaoGeral,
+                                           UsuarioAtivo = usuario.UsuarioAtivo,
+                                           MediaAvaliacao = usuario.MediaAvaliacao,
+                                           NotaProdutividade = usuario.NotaProdutividade,
+                                           IdCargoNavigation = new Cargo()
+                                           {
+                                               IdCargo = usuario.IdCargoNavigation.IdCargo,
+                                               NomeCargo = usuario.IdCargoNavigation.NomeCargo
+                                           },
+                                           IdTipoUsuarioNavigation = new Tipousuario()
+                                           {
+                                               IdTipoUsuario = usuario.IdTipoUsuarioNavigation.IdTipoUsuario,
+                                               NomeTipoUsuario = usuario.IdTipoUsuarioNavigation.NomeTipoUsuario
+                                           },
+                                           IdUnidadeSenaiNavigation = new Unidadesenai()
+                                           {
+                                               NomeUnidadeSenai = usuario.IdUnidadeSenaiNavigation.NomeUnidadeSenai
+                                           }
+
+                                       };
+
+            return listaFuncionariosLot.ToList();
+
         }
     }
 }

@@ -209,5 +209,25 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+
+        [HttpGet("Listar/Lotacao/{idGestor}")]
+
+        public IActionResult ListarFuncionariosLotacao(int idGestor)
+        {
+            try
+            {
+                if (idGestor == 0)
+                {
+                    return BadRequest("Id do gestor não pode ser igual a 0 !");
+                }
+
+                return Ok(_usuarioRepository.ListarFuncionariosLot(idGestor));
+            }
+            catch (Exception exep)
+            {
+                return BadRequest(exep);
+
+            }
+        }
     }
 }
