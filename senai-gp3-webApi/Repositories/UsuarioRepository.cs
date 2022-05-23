@@ -161,7 +161,7 @@ namespace senai_gp3_webApi.Repositories
             }
             else
             {   // Atribui uma nota ao usuário
-                usuario.NotaProdutividade = qtdeAtividadesConcluidas / totalAtividadesUsuario.Count;
+                usuario.NotaProdutividade = Convert.ToDecimal(qtdeAtividadesConcluidas / totalAtividadesUsuario.Count);
                 ctx.SaveChanges();
             }
         }
