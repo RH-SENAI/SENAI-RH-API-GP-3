@@ -79,5 +79,11 @@ namespace senai_gp3_webApi
         /// <param name="idUsuario">id do usuario</param>
         void CalcularProdutividade(int idUsuario);
 
+        /// <summary>
+        /// Lista todos os funcionários
+        /// </summary>
+        /// <param name="idGestor">id do gestor que será buscado</param>
+        /// <returns>Uma lista com todos os funcionarios por lotação</returns>
+        List<Usuario> ListarFuncionariosLot(int idGestor);
     }
 }
