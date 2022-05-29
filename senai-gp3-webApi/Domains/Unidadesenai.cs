@@ -9,6 +9,7 @@ namespace senai_gp3_webApi.Domains
     {
         public Unidadesenai()
         {
+            Historicounidades = new HashSet<Historicounidade>();
             Registrominhasunidades = new HashSet<Registrominhasunidade>();
             Usuarios = new HashSet<Usuario>();
         }
@@ -25,6 +26,7 @@ namespace senai_gp3_webApi.Domains
         public int QtdFuncionariosAtivos { get; set; }
 
         public virtual Localizacao IdLocalizacaoNavigation { get; set; }
+        public virtual ICollection<Historicounidade> Historicounidades { get; set; }
         public virtual ICollection<Registrominhasunidade> Registrominhasunidades { get; set; }
         public virtual ICollection<Usuario> Usuarios { get; set; }
     }

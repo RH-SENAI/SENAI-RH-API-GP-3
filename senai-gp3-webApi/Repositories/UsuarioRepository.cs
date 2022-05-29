@@ -215,23 +215,23 @@ namespace senai_gp3_webApi.Repositories
         public void CalcularMediaAvaliacao(int idUsuario)
         {
             Usuario usuarioAchado = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
-            List<decimal> avaliacaousuarios = new();
+            List<decimal> avaliacaousuario = new();
 
             foreach (var avaliacaoUsuario in ctx.Avaliacaousuarios)
             {
                 if (avaliacaoUsuario.IdUsuarioAvaliado == idUsuario)
                 {
-                    avaliacaousuarios.Add((decimal)avaliacaoUsuario.AvaliacaoUsuario1);
+                    avaliacaousuario.Add((decimal)avaliacaoUsuario.AvaliacaoUsuario1);
                 }
             }
 
-            if (avaliacaousuarios.Count == 0)
+            if (avaliacaousuario.Count == 0)
             {
                 usuarioAchado.MediaAvaliacao = 0;
             }
             else
             {
-                usuarioAchado.MediaAvaliacao = (avaliacaousuarios.Sum() / avaliacaousuarios.Count);
+                usuarioAchado.MediaAvaliacao = (avaliacaousuario.Sum() / avaliacaousuario.Count);
             }
 
             ctx.Usuarios.Update(usuarioAchado);

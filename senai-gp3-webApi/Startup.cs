@@ -115,6 +115,8 @@ namespace senai_gp3_webApi
             services.AddTransient<IAvaliacaoUsuarioRepository, AvaliacaoUsuarioRepository>();
             services.AddTransient<IGrupoRepository, GrupoRepository>();
             services.AddTransient<ILotacaoRepository, LotacaoRepository>();
+            services.AddTransient<IHistoricoUnidadeRepository, HistoricoUnidadeRepository>();
+
 
         }
 

@@ -16,7 +16,6 @@ namespace senai_gp3_webApi.Controllers
     public class HistoricoAController : ControllerBase
     {
 
-
         private IHistoricoRepository _historicoRepository { get; set; }
 
         public HistoricoAController(IHistoricoRepository repo)

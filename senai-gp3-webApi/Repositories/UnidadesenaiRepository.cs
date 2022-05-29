@@ -49,43 +49,33 @@ namespace senai_gp3_webApi.Repositories
 
         public void CalcularProdutividade(int idUnidadeSenai)
         {
-            {
-                var unidadeSenai = ctx.Unidadesenais.FirstOrDefault(u => u.IdUnidadeSenai == idUnidadeSenai);
-                List<decimal?> mediaNotas = new();
+            var unidadeSenai = ctx.Unidadesenais.FirstOrDefault(u => u.IdUnidadeSenai == idUnidadeSenai);
+            List<decimal?> produtividadeUsuarios = new();
 
-                // Pega as avaliações dos usuários
-                foreach (var usuario in ctx.Usuarios)
+            if (unidadeSenai != null)
+            {
+                // Calcular media
+                foreach (var usuarios in ctx.Usuarios)
                 {
-                    if (usuario.IdUnidadeSenai == unidadeSenai.IdUnidadeSenai)
+                    if (usuarios.IdUnidadeSenai == unidadeSenai.IdUnidadeSenai)
                     {
-                        mediaNotas.Add(usuario.NotaProdutividade);
+                        produtividadeUsuarios.Add(usuarios.NotaProdutividade);
                     }
                 }
 
-                // Query personalizada para pegar as listas das notas
-                var query = from media in mediaNotas
-                            select media;
-                decimal? elementoCentral;
-                var contagem = query.Count();
 
-                if ((contagem % 2) == 0)
+
+                if (produtividadeUsuarios.Count == 0)
                 {
-                    //Pega as duas avaliações do meio
-                    var elementoCentral1 = mediaNotas.Skip(contagem / 2).First();
-                    var elementoCentral2 = mediaNotas.Skip((contagem / 2) - 1).First();
-                    elementoCentral = (elementoCentral1 + elementoCentral2) / 2;
+                    unidadeSenai.MediaProdutividadeUnidadeSenai = 0;
                 }
                 else
                 {
-                    // Pega o elemento central
-                    elementoCentral = mediaNotas.Skip(contagem / 2).First();
+                    unidadeSenai.MediaProdutividadeUnidadeSenai = (decimal)produtividadeUsuarios.Sum() / produtividadeUsuarios.Count;
                 }
 
-                // Calcular media
-                unidadeSenai.MediaProdutividadeUnidadeSenai = (decimal)elementoCentral;
                 ctx.Unidadesenais.Update(unidadeSenai);
                 ctx.SaveChanges();
-
             }
         }
 
@@ -111,42 +101,36 @@ namespace senai_gp3_webApi.Repositories
         public void CalcularSatisfacao(int idUnidadeSenai)
         {
             var unidadeSenai = ctx.Unidadesenais.FirstOrDefault(u => u.IdUnidadeSenai == idUnidadeSenai);
-            List<decimal> mediaNotas = new();
+            List<decimal?> satisfacaousuarios = new();
 
-            // Pega as avaliações dos usuários
-            foreach (var usuario in ctx.Usuarios)
+            if (unidadeSenai != null)
             {
-                if (usuario.IdUnidadeSenai == unidadeSenai.IdUnidadeSenai)
+                // Calcular media
+                foreach(var usuarios in ctx.Usuarios)
                 {
-                    mediaNotas.Add((decimal)usuario.MedSatisfacaoGeral);
+                    if (usuarios.IdUnidadeSenai == unidadeSenai.IdUnidadeSenai)
+                    {
+                        satisfacaousuarios.Add(usuarios.MedSatisfacaoGeral);
+                    }
                 }
+
+
+
+                if (satisfacaousuarios.Count == 0 )
+                {
+                    unidadeSenai.MediaSatisfacaoUnidadeSenai = 0;
+                }
+                else
+                {
+                    unidadeSenai.MediaSatisfacaoUnidadeSenai = (decimal)satisfacaousuarios.Sum() / satisfacaousuarios.Count;
+                }
+
+                ctx.Unidadesenais.Update(unidadeSenai);
+                ctx.SaveChanges();
             }
-
-            // Query personalizada para pegar as listas das notas
-            var query = from media in mediaNotas
-                        select media;
-            decimal elementoCentral;
-            var contagem = query.Count();
-
-
-            if ((contagem % 2) == 0)
-            {
-                //Pega as duas avaliações do meio
-                var elementoCentral1 = mediaNotas.Skip(contagem / 2).First();
-                var elementoCentral2 = mediaNotas.Skip((contagem / 2) - 1).First();
-                elementoCentral = (elementoCentral1 + elementoCentral2) / 2;
-            }
-            else
-            {
-                // Pega o elemento central
-                elementoCentral = mediaNotas.Skip(contagem / 2).First();
-            }
-
-            // Calcular media
-            unidadeSenai.MediaSatisfacaoUnidadeSenai = elementoCentral;
-            ctx.Unidadesenais.Update(unidadeSenai);
-            ctx.SaveChanges();
         }
+
+
 
         public void DeletarUniSenai(int idUnidadeSenai)
         {
@@ -155,16 +139,49 @@ namespace senai_gp3_webApi.Repositories
 
         public List<Unidadesenai> ListarUniSenai()
         {
-            return ctx.Unidadesenais.ToList();
+            return ctx.Unidadesenais
+                .Select( u => new Unidadesenai
+                { 
+                   IdLocalizacao = u.IdLocalizacao,
+                   IdUnidadeSenai = u.IdUnidadeSenai,
+                   MediaProdutividadeUnidadeSenai = u.MediaProdutividadeUnidadeSenai,
+                   MediaSatisfacaoUnidadeSenai = u.MediaSatisfacaoUnidadeSenai,
+                   TelefoneUnidadeSenai = u.TelefoneUnidadeSenai,
+                   EmailUnidadeSenai = u.EmailUnidadeSenai,
+                   QtdFuncionariosAtivos = u.QtdFuncionariosAtivos,
+                   QtdDeFuncionarios = u.QtdDeFuncionarios,
+                   NomeUnidadeSenai = u.NomeUnidadeSenai
+                
+                })
+                .ToList();
         }
 
         public Unidadesenai ListarUniSenaiPorId(int idUniSenai)
         {
+            HistoricoUnidadeRepository historicoUnidadeRepository = new(ctx);
+
+            historicoUnidadeRepository.CadastrarRegistro(idUniSenai);
+
             CalcularProdutividade(idUniSenai);
             CalcularSatisfacao(idUniSenai);
             CalcularQtdFuncionarios(idUniSenai);
             CalcularFuncionariosAtivos(idUniSenai);
-            return ctx.Unidadesenais.FirstOrDefault(u => u.IdUnidadeSenai == idUniSenai);
+
+            return ctx.Unidadesenais
+                .Select(u => new Unidadesenai
+                {
+                    IdLocalizacao = u.IdLocalizacao,
+                    IdUnidadeSenai = u.IdUnidadeSenai,
+                    MediaProdutividadeUnidadeSenai = u.MediaProdutividadeUnidadeSenai,
+                    MediaSatisfacaoUnidadeSenai = u.MediaSatisfacaoUnidadeSenai,
+                    TelefoneUnidadeSenai = u.TelefoneUnidadeSenai,
+                    EmailUnidadeSenai = u.EmailUnidadeSenai,
+                    QtdFuncionariosAtivos = u.QtdFuncionariosAtivos,
+                    QtdDeFuncionarios = u.QtdDeFuncionarios,
+                    NomeUnidadeSenai = u.NomeUnidadeSenai
+
+                })
+                .FirstOrDefault(u => u.IdUnidadeSenai == idUniSenai);
         }
     }
 }

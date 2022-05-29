@@ -36,6 +36,7 @@ namespace senai_gp3_webApi.Contexts
         public virtual DbSet<Feedback> Feedbacks { get; set; }
         public virtual DbSet<Grupo> Grupos { get; set; }
         public virtual DbSet<Historico> Historicos { get; set; }
+        public virtual DbSet<Historicounidade> Historicounidades { get; set; }
         public virtual DbSet<Localizacao> Localizacaos { get; set; }
         public virtual DbSet<Logradouro> Logradouros { get; set; }
         public virtual DbSet<Lotacao> Lotacaos { get; set; }
@@ -716,6 +717,38 @@ namespace senai_gp3_webApi.Contexts
                     .HasForeignKey(d => d.IdUsuario)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__HISTORICO__idUsu__45DE573A");
+            });
+
+            modelBuilder.Entity<Historicounidade>(entity =>
+            {
+                entity.HasKey(e => e.IdHistoricoUnidade)
+                    .HasName("PK__HISTORIC__0B58CD2D3CB7DC90");
+
+                entity.ToTable("HISTORICOUNIDADE");
+
+                entity.Property(e => e.IdHistoricoUnidade).HasColumnName("idHistoricoUnidade");
+
+                entity.Property(e => e.AtualizadoEm).HasColumnType("datetime");
+
+                entity.Property(e => e.IdUnidade).HasColumnName("idUnidade");
+
+                entity.Property(e => e.MediaProdutividade)
+                    .HasColumnType("decimal(3, 2)")
+                    .HasColumnName("mediaProdutividade");
+
+                entity.Property(e => e.MediaSatisfacao)
+                    .HasColumnType("decimal(3, 2)")
+                    .HasColumnName("mediaSatisfacao");
+
+                entity.Property(e => e.QtdDeFuncionarios).HasColumnName("qtdDeFuncionarios");
+
+                entity.Property(e => e.QtdDeFuncionariosAtivos).HasColumnName("qtdDeFuncionariosAtivos");
+
+                entity.HasOne(d => d.IdUnidadeNavigation)
+                    .WithMany(p => p.Historicounidades)
+                    .HasForeignKey(d => d.IdUnidade)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__HISTORICO__idUni__65570293");
             });
 
             modelBuilder.Entity<Localizacao>(entity =>
