@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Interfaces;
 using System;
@@ -24,6 +25,7 @@ namespace senai_gp3_webApi.Controllers
             _historicoRepository = repo;
         }
 
+        [Authorize(Roles = "1, 2, 3")]
         [HttpGet("Listar/{idUsuario}")]
         public IActionResult ListarHistorioPorUsuario(int idUsuario)
         {

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Interfaces;
@@ -21,6 +22,7 @@ namespace senai_gp3_webApi.Controllers
             _grupoRepository = repo;
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpGet("Listar")]
         public IActionResult ListarGrupos()
         {
@@ -34,6 +36,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+        [Authorize(Roles = "3")]
         [HttpPost("Cadastrar")]
         public IActionResult CadastraGrupo(Grupo novoGrupo)
         {

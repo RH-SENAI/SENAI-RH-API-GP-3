@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Interfaces;
 using System;
@@ -60,8 +61,8 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpGet("Listar/Usuario/{idUsuario}")]
-
         public IActionResult ListarFeedBacksPorUsuario(int idUsuario)
         {
             try

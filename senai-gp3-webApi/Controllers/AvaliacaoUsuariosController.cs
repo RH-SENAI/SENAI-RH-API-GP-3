@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Interfaces;
@@ -22,8 +23,8 @@ namespace senai_gp3_webApi.Controllers
         }
 
 
-
-
+        
+        [Authorize(Roles = "2, 3")]
         [HttpGet("Listar/{idAvaliacaoUsuario}")]
         public IActionResult ListaUsuarioPorId(int idAvaliacaoUsuario)
         {
@@ -42,8 +43,9 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpGet("Listar")]
-        public IActionResult ListarUsuario()
+        public IActionResult ListarAvaliacaoUsuarios()
         {
             try
             {
@@ -56,8 +58,9 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpPost("Cadastrar")]
-        public IActionResult CadastrarUsuario(Avaliacaousuario novaAvaliacaoUsuario)
+        public IActionResult CadastrarAvaliacaoUsuario(Avaliacaousuario novaAvaliacaoUsuario)
         {
             try
             {

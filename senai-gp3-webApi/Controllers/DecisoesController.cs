@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Interfaces;
 using System;
@@ -24,8 +25,8 @@ namespace senai_gp3_webApi.Controllers
         }
 
 
-        // GET: api/<DecisoesController>
-        [HttpGet("Listar")]
+
+        [Authorize(Roles = "1, 2, 3")]
         public IActionResult ListarDecisoes()
         {
             try
@@ -39,6 +40,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
         // POST api/<DecisoesController>
+        [Authorize(Roles = "2")]
         [HttpPost("Cadastrar")]
         public IActionResult CadastrarDecisoes(Decisao novaDecisao)
         {
@@ -63,6 +65,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+        [Authorize(Roles = "1, 2, 3")]
         [HttpGet("Listar/{idDecisao}")]
         public IActionResult ListarDecisaoPorId(int idDecisao)
         {
