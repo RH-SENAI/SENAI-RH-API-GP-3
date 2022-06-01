@@ -27,7 +27,7 @@ namespace senai_gp3_webApi.Controllers
 
 
         [Authorize(Roles = "1, 2, 3")]
-        [HttpPost("Listar")]
+        [HttpGet("Listar")]
         public IActionResult ListarDecisoes()
         {
             try
