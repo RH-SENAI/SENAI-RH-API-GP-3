@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Interfaces;
 using System;
@@ -24,6 +25,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
         // GET: api/<FeedbacksController>
+        [Authorize(Roles = "1, 2")]
         [HttpGet("Listar")]
         public IActionResult ListarFeedbacks()
         {
@@ -39,6 +41,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
         // POST api/<FeedbacksController>
+        [Authorize(Roles = "1, 2")]
         [HttpPost("Cadastrar")]
         public IActionResult CadastrarFeedback(Feedback novoFeedback)
         {
@@ -60,8 +63,8 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpGet("Listar/Usuario/{idUsuario}")]
-
         public IActionResult ListarFeedBacksPorUsuario(int idUsuario)
         {
             try

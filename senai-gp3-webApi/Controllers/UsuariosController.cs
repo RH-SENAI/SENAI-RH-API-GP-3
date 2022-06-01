@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Domains;
 using senai_gp3_webApi.Utils;
@@ -25,6 +26,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
         [HttpGet("Listar")]
+        [Authorize(Roles = "3")]
         public IActionResult ListarUsuario()
         {
             try
@@ -39,7 +41,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
-
+        [Authorize(Roles = "1, 2, 3")]
         [HttpGet("Listar/{idUsuario}")]
         public IActionResult ListaUsuarioPorId(int idUsuario)
         {
@@ -58,6 +60,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpPost("Cadastrar")]
         public IActionResult CadastrarUsuario([FromForm] UsuarioCadastroViewModel novoUsuario, IFormFile fotoPerfil)
         {
@@ -102,6 +105,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+        [Authorize(Roles = "2, 3")]
         [HttpPut("Atualizar/Gestor/{idUsuario}")]
         public IActionResult AtualizarGestor(int idUsuario, [FromForm] GestorAtualizadoViewModel gestorAtualizado, IFormFile novaFotoPerfil)
         {
@@ -137,6 +141,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
 
+        [Authorize(Roles = "1, 3")]
         [HttpPut("Atualizar/Funcionario/{idUsuario}")]
         public IActionResult AtualizarFuncionario(int idUsuario, [FromForm] FuncionarioAtualizadoViewModel funcionarioAtualizado, IFormFile novaFotoPerfil)
         {
@@ -173,6 +178,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
+        [Authorize(Roles = "3")]
         // DELETE api/<UsuariosController>/5
         [HttpDelete("Deletar/{id}")]
         public IActionResult DeletarUsuario(int id)
@@ -194,6 +200,8 @@ namespace senai_gp3_webApi.Controllers
                 return BadRequest(execp);
             }
         }
+
+        [Authorize(Roles = "1, 2, 3")]
         [HttpGet("RankingUsuarios")]
         public IActionResult Ranking()
         {
@@ -209,7 +217,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
-
+        [Authorize(Roles = "2, 3")]
         [HttpGet("Listar/Lotacao/{idGestor}")]
 
         public IActionResult ListarFuncionariosLotacao(int idGestor)

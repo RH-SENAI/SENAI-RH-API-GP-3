@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Interfaces;
 using System;
 
@@ -18,6 +19,7 @@ namespace senai_gp3_webApi.Controllers
             _cargoRepository = repo;
         }
 
+        [Authorize(Roles = "1, 2, 3")]
         [HttpGet("Listar")]
         public IActionResult ListarCargos()
         {

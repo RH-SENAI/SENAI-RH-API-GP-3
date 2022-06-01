@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using senai_gp3_webApi.Interfaces;
 using System;
@@ -18,6 +19,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
         [HttpGet("Listar/{idUnidade}")]
+        [Authorize(Roles = "1, 2")]
         public IActionResult ListarHistorioPorUsuario(int idUnidade)
         {
             try

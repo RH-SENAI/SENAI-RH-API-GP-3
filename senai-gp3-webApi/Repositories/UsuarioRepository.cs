@@ -133,7 +133,7 @@ namespace senai_gp3_webApi.Repositories
         {
             Usuario usuario = ctx.Usuarios.FirstOrDefault(u => u.IdUsuario == idUsuario);
             List<Minhasatividade> totalAtividadesUsuario = new();
-            int qtdeAtividadesConcluidas = 0;
+            decimal qtdeAtividadesConcluidas = 0;
 
 
             foreach (var atividade in ctx.Minhasatividades)
@@ -160,8 +160,8 @@ namespace senai_gp3_webApi.Repositories
                 usuario.NotaProdutividade = 0;
             }
             else
-            {   // Atribui uma nota ao usuário
-                usuario.NotaProdutividade = Convert.ToDecimal(qtdeAtividadesConcluidas / totalAtividadesUsuario.Count);
+           {   // Atribui uma nota ao usuário
+                usuario.NotaProdutividade = qtdeAtividadesConcluidas / totalAtividadesUsuario.Count;
                 ctx.SaveChanges();
             }
         }
