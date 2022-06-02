@@ -23,7 +23,7 @@ namespace senai_gp3_webApi.Controllers
             _lotacaoRepository = repo;
         }
 
-        [Authorize(Roles = "2, 3")]
+        //[Authorize(Roles = "2, 3")]
         [HttpGet("Listar")]
         public IActionResult ListarLotacao()
         {
@@ -37,7 +37,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
         
-        [Authorize(Roles = "2, 3")]
+        //[Authorize(Roles = "2, 3")]
         [HttpPost("Cadastrar/{idFuncionario}/{idGrupo}")]
         public IActionResult CadastraLotacao(LotacaoViewModel novaLotacao)
         {

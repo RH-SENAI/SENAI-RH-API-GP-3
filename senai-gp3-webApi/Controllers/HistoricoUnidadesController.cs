@@ -19,7 +19,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
         [HttpGet("Listar/{idUnidade}")]
-        [Authorize(Roles = "1, 2")]
+        //[Authorize(Roles = "1, 2")]
         public IActionResult ListarHistorioPorUsuario(int idUnidade)
         {
             try

@@ -22,7 +22,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
         // GET: api/<idTipoUsuariosController>
-        [Authorize(Roles = "2, 3")]
+        //[Authorize(Roles = "2, 3")]
         [HttpGet("Listar")]
         public IActionResult ListarIdTiposUsuarios()
         {

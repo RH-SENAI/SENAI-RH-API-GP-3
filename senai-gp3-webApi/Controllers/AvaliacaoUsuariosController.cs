@@ -24,7 +24,7 @@ namespace senai_gp3_webApi.Controllers
 
 
         
-        [Authorize(Roles = "2, 3")]
+        //[Authorize(Roles = "2, 3")]
         [HttpGet("Listar/{idAvaliacaoUsuario}")]
         public IActionResult ListaUsuarioPorId(int idAvaliacaoUsuario)
         {
@@ -58,7 +58,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
-        [Authorize(Roles = "2, 3")]
+        //[Authorize(Roles = "2, 3")]
         [HttpPost("Cadastrar")]
         public IActionResult CadastrarAvaliacaoUsuario(Avaliacaousuario novaAvaliacaoUsuario)
         {

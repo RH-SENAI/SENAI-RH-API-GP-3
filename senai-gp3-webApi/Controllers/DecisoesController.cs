@@ -26,7 +26,7 @@ namespace senai_gp3_webApi.Controllers
 
 
 
-        [Authorize(Roles = "1, 2, 3")]
+        //[Authorize(Roles = "1, 2, 3")]
         [HttpGet("Listar")]
         public IActionResult ListarDecisoes()
         {
@@ -41,7 +41,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
         // POST api/<DecisoesController>
-        [Authorize(Roles = "2")]
+        //[Authorize(Roles = "2")]
         [HttpPost("Cadastrar")]
         public IActionResult CadastrarDecisoes(Decisao novaDecisao)
         {
@@ -66,7 +66,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
-        [Authorize(Roles = "1, 2, 3")]
+        //[Authorize(Roles = "1, 2, 3")]
         [HttpGet("Listar/{idDecisao}")]
         public IActionResult ListarDecisaoPorId(int idDecisao)
         {

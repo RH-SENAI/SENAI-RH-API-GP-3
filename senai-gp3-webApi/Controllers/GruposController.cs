@@ -22,7 +22,7 @@ namespace senai_gp3_webApi.Controllers
             _grupoRepository = repo;
         }
 
-        [Authorize(Roles = "2, 3")]
+        //[Authorize(Roles = "2, 3")]
         [HttpGet("Listar")]
         public IActionResult ListarGrupos()
         {
@@ -36,7 +36,7 @@ namespace senai_gp3_webApi.Controllers
             }
         }
 
-        [Authorize(Roles = "3")]
+        //[Authorize(Roles = "3")]
         [HttpPost("Cadastrar")]
         public IActionResult CadastraGrupo(Grupo novoGrupo)
         {

@@ -19,7 +19,7 @@ namespace senai_gp3_webApi.Controllers
             _cargoRepository = repo;
         }
 
-        [Authorize(Roles = "1, 2, 3")]
+        //[Authorize(Roles = "1, 2, 3")]
         [HttpGet("Listar")]
         public IActionResult ListarCargos()
         {

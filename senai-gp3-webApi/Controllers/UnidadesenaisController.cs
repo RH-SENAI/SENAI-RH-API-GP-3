@@ -21,7 +21,7 @@ namespace senai_gp3_webApi.Controllers
         }
 
         // GET: api/<UnidadesenaisController>
-        [Authorize(Roles = "2, 3")]
+        //[Authorize(Roles = "2, 3")]
         [HttpGet("Listar")]
         public IActionResult ListarUnidadesSenai()
         {
@@ -35,7 +35,7 @@ namespace senai_gp3_webApi.Controllers
             };
         }
 
-        [Authorize(Roles = "1, 2, 3")]
+        //[Authorize(Roles = "1, 2, 3")]
         [HttpGet("Listar/{idUnidade}")]
         public IActionResult ListarUniSenaiPorId(int idUnidade)
         {
@@ -56,7 +56,7 @@ namespace senai_gp3_webApi.Controllers
 
 
         // POST api/<UnidadesenaisController>
-        [Authorize(Roles = "3")]
+        //[Authorize(Roles = "3")]
         [HttpPost("Cadastrar")]
         public IActionResult CadastrarUnidade(Unidadesenai novaUnidadesenai)
         {

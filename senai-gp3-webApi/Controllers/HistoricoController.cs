@@ -24,7 +24,7 @@ namespace senai_gp3_webApi.Controllers
             _historicoRepository = repo;
         }
 
-        [Authorize(Roles = "1, 2, 3")]
+        //[Authorize(Roles = "1, 2, 3")]
         [HttpGet("Listar/{idUsuario}")]
         public IActionResult ListarHistorioPorUsuario(int idUsuario)
         {
