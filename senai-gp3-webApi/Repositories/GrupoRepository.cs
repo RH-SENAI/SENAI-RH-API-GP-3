@@ -26,6 +26,8 @@ namespace senai_gp3_webApi.Repositories
             {
                 ctx.Grupos.Add(novoGrupo);
             }
+
+            ctx.SaveChanges();
         }
 
         public List<Grupo> ListarGrupos()
