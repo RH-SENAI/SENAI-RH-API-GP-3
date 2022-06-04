@@ -117,7 +117,7 @@ namespace senai_gp3_webApi.Controllers
                 if (gestorAchado != null)
                 {
                     //Verifica se esse usuário é um gestor
-                    if (gestorAchado.IdCargo == 3)
+                    if (gestorAchado.IdTipoUsuario == 2)
                     {
                         if (novaFotoPerfil != null)
                         {
@@ -152,7 +152,7 @@ namespace senai_gp3_webApi.Controllers
                 if (funcionarioAchado != null)
                 {
                     //Verifica se esse usuário não é um gestor
-                    if (funcionarioAchado.IdCargo != 3)
+                    if (funcionarioAchado.IdTipoUsuario != 3)
                     {
                         //Verifica se o funcionario quis atualizar sua própria foto
                         if (novaFotoPerfil != null)
